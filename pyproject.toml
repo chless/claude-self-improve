@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "claude-self-improve"
+version = "0.1.0"
+description = "Scaffold a .claude/ governance framework for self-improving AI agents"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+claude-self-improve = "claude_self_improve.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"claude_self_improve" = [
+    "templates/claude/**/*",
+    "templates/claude/**/.gitkeep",
+]
