@@ -33,7 +33,7 @@ Check each category — update MEMORY.md if something new was learned:
 - **User preference** — workflow, tool choice, communication style the user expressed
   → Add to "User Preferences" section. Only record explicit preferences, not guesses.
 
-**When detail exceeds one line:** Create a topic file in the memory directory (e.g., `debugging.md`, `orca-setup.md`) and link to it from MEMORY.md. Keep MEMORY.md itself as a concise index under 200 lines.
+**When detail exceeds one line:** Create a topic file in the memory directory (e.g., `debugging.md`, `infra-setup.md`) and link to it from MEMORY.md. Keep MEMORY.md itself as a concise index under 200 lines.
 
 ### 4. Explicit User Request?
 

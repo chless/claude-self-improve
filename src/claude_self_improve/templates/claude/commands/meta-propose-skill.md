@@ -20,7 +20,7 @@ ALL of these must be true:
 Even if a skill with similar keywords already exists, a new or revised skill is warranted when ANY of these is true:
 
 1. **Gap found** — The existing skill misses a step or edge case that the current task revealed
-2. **Specialization needed** — The existing skill is too broad; a more focused variant would be more actionable (e.g., `orca-troubleshoot` exists but `orca-scf-convergence` would capture a deeper, specific pattern)
+2. **Specialization needed** — The existing skill is too broad; a more focused variant would be more actionable (e.g., `debug-build` exists but `debug-docker-build` would capture a deeper, specific pattern)
 3. **Outdated** — The existing skill's procedure no longer matches current project conventions or tooling
 4. **Merge opportunity** — Two or more related skills could be consolidated into a stronger, unified skill
 
@@ -34,7 +34,7 @@ Even if a skill with similar keywords already exists, a new or revised skill is 
 Meta-skills (prefixed `meta-`) govern how the agent thinks, not what it does. They qualify when:
 
 1. **Cognitive pattern** — The pattern is about reasoning, planning, scoping, learning, or self-evaluation — not domain-specific procedures
-2. **Cross-domain** — It applies regardless of whether the task is about ORCA, Python packaging, or anything else
+2. **Cross-domain** — It applies regardless of whether the task is about databases, Python packaging, or anything else
 3. **Compounding** — Improving this pattern makes all future work better, not just one task type
 
 Meta-skills use the same approval process but are filed as `meta-*.md`.
