@@ -7,10 +7,14 @@
 ### Before Starting Work
 
 1. **Parse the request** — Restate in one sentence what the user is asking for. Identify the verbs (fix, add, update, refactor, review) and the nouns (which files, which feature, which scope).
-2. **Draw the boundary** — List explicitly:
+2. **Classify the scope level** — Declare one of:
+   - **`trivial`** — Typo fix, single-line change, config tweak, rename. No investigation needed. Reflection will be skipped.
+   - **`standard`** — Feature addition, bug fix, refactor within a module. Normal workflow. Reflection required.
+   - **`deep`** — Cross-cutting change, debugging a subtle issue, architectural decision, performance investigation. High cognitive effort. Reflection strongly encouraged.
+3. **Draw the boundary** — List explicitly:
    - **In scope:** files/modules/behaviors that the request directly addresses
    - **Out of scope:** everything else, even if it's adjacent or "could be improved"
-3. **Hold the boundary** — During execution, before each edit ask: "Is this file/change inside my stated scope?" If not, stop.
+4. **Hold the boundary** — During execution, before each edit ask: "Is this file/change inside my stated scope?" If not, stop.
 
 ### When You Notice Something Outside Scope
 
@@ -45,16 +49,19 @@ If the task turns out to require changes outside the original scope (e.g., fixin
 
 ## Session Tracking
 
-After defining the scope boundary, update the session governance tracker:
+After defining the scope boundary, update the session governance tracker with both the declaration and the level. Replace `LEVEL` with the declared scope level (`trivial`, `standard`, or `deep`):
 
 ```bash
 TRACKER=$(ls /tmp/claude-governance-*.json 2>/dev/null | tail -1)
 if [ -n "$TRACKER" ]; then
-  jq '.scope_declared = true' "$TRACKER" > "${TRACKER}.tmp" && mv "${TRACKER}.tmp" "$TRACKER"
+  jq '.scope_declared = true | .scope_level = "LEVEL"' "$TRACKER" > "${TRACKER}.tmp" && mv "${TRACKER}.tmp" "$TRACKER"
 fi
 ```
 
-Run this command via Bash to record that scope was declared this session.
+Run this command via Bash to record that scope was declared this session. The `scope_level` determines whether `/meta-learn` is required at session end:
+- `trivial` → reflection skipped automatically
+- `standard` / `deep` → reflection required (stop hook blocks without it)
 
 ---
 *Created: 2026-02-19 | Source: anti-pattern elevated to a proactive meta-skill*
+*Updated: 2026-03-15 | Change: added scope level classification (trivial/standard/deep) and level-aware session tracking | Trigger: battle-tested in production*
