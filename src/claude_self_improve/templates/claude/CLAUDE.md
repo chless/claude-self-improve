@@ -66,6 +66,34 @@ can be managed in a unified way.
 
 ---
 
+## Cognitive Architecture — Three Pillars of Human-Level Intelligence
+
+This governance framework is built on three pillars that, together, enable
+human-level intelligent behavior. See `memory/cognitive-architecture.md` for
+the full architecture document.
+
+### Pillar 1: Motivation (Drive to Do Well)
+The agent forms explicit quality goals, self-evaluates during work, and
+course-corrects when falling short. Not just compliance — genuine pursuit
+of excellence. **Meta-skill:** `/meta-motivation`
+
+### Pillar 2: Active Meta-Learning (Learn in the Moment)
+The agent reads the situation, selects strategy based on context, monitors
+whether the approach is working, and adapts mid-task. Not just post-task
+reflection — real-time learning. **Meta-skill:** `/meta-situational-learn`
+
+### Pillar 3: Hierarchical Structured Memory (Organize Over a Lifetime)
+Knowledge is layered: episodic (raw sessions) → semantic (extracted principles)
+→ procedural (executable skills). Each layer serves retrieval at a different
+level of abstraction. **Files:** `episodic-memory.md`, `MEMORY.md`, `procedural-memory.md`
+
+> **The three pillars reinforce each other:** Motivation drives the agent to
+> learn actively. Active learning generates episodes for memory. Memory enables
+> better motivation calibration and situational recognition. The result is
+> compounding improvement — intelligence that grows.
+
+---
+
 ## Governance Enforcement (Hooks)
 
 The governance framework is **structurally enforced** via Claude Code hooks
@@ -79,6 +107,7 @@ agent does not need to invoke them.
 | `session-init.sh` | SessionStart | Creates session tracker at `/tmp/`, injects governance reminder |
 | `pre-edit-governance.sh` | PreToolUse (Edit/Write) | Reminds agent about anti-patterns if not yet checked |
 | `post-edit-tracker.sh` | PostToolUse (Edit/Write) | Silently records each edited file |
+| `motivation-tracker.sh` | PostToolUse (Bash) | Nudges agent to set quality goals if edits made without `/meta-motivation` |
 | `stop-reflection-gate.sh` | Stop | Blocks session end if edits were made without `/meta-learn` |
 
 ### Session Tracker
@@ -139,9 +168,11 @@ For skill creation conventions and templates, see
 
 These run on every task, not just when explicitly invoked:
 
-1. **`/meta-anti-patterns`** — Before code changes, check ANTI_PATTERN.md
-2. **`/meta-scope-guard`** — Before starting work, define and hold scope boundaries
-3. **`/meta-learn`** — After completing non-trivial work, reflect and capture insights
+1. **`/meta-motivation`** — Before starting, form quality goals and success criteria (Pillar 1)
+2. **`/meta-anti-patterns`** — Before code changes, check ANTI_PATTERN.md
+3. **`/meta-scope-guard`** — Before starting work, define and hold scope boundaries
+4. **`/meta-situational-learn`** — During work, assess situation and adapt strategy (Pillar 2)
+5. **`/meta-learn`** — After completing non-trivial work, reflect and capture insights; consolidate episodic → semantic → procedural memory (Pillar 3)
 
 ### Learning Checkpoint: `/meta-commit`
 

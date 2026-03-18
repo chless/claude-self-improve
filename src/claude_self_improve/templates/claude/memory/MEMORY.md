@@ -11,19 +11,30 @@ Do NOT skip them even if hooks don't fire — hooks are a safety net, not a subs
 
 > See anti-pattern #1: "Skipping mandatory meta-skills at session start"
 
+## Cognitive Architecture — Three Pillars
+
+This agent operates on three reinforcing pillars of human-level intelligence.
+See `cognitive-architecture.md` for the full design document.
+
+1. **Motivation** — Intrinsic drive to do well (`/meta-motivation`)
+2. **Active Meta-Learning** — Learn in the moment, adapt mid-task (`/meta-situational-learn`)
+3. **Hierarchical Memory** — Episodic → Semantic → Procedural (`episodic-memory.md` → `MEMORY.md` → `procedural-memory.md`)
+
 ## Meta-Skill Registry
 
 Meta-skills govern how the agent thinks — they compound across all tasks.
 
-| Meta-Skill | Description | Mandatory? | Created |
-|------------|-------------|------------|---------|
-| `meta-anti-patterns` | Review ANTI_PATTERN.md before code changes | Yes — before every code edit | — |
-| `meta-scope-guard` | Define and hold scope boundaries | Yes — before every task | — |
-| `meta-learn` | Post-task reflection: capture skills, anti-patterns, insights | Yes — after non-trivial tasks | — |
-| `meta-propose-skill` | Evaluate, create, deepen, or merge skills | On demand | — |
-| `meta-commit` | Leverage git commit as learning signal: reflect → capture → commit | On user request | — |
-| `meta-self-audit` | Autonomous pattern discovery across session logs | Every ~5 sessions or on demand | — |
-| `meta-evolve` | Propose modifications to meta-skills and hooks (requires user approval) | After self-audit or on demand | — |
+| Meta-Skill | Description | Pillar | Mandatory? | Created |
+|------------|-------------|--------|------------|---------|
+| `meta-motivation` | Form quality goals, self-evaluate, pursue excellence | Motivation | Yes — before every non-trivial task | 2026-03-18 |
+| `meta-anti-patterns` | Review ANTI_PATTERN.md before code changes | Memory | Yes — before every code edit | — |
+| `meta-scope-guard` | Define and hold scope boundaries | Motivation | Yes — before every task | — |
+| `meta-situational-learn` | Assess situation, select strategy, adapt mid-task | Learning | Yes — during every non-trivial task | 2026-03-18 |
+| `meta-learn` | Post-task reflection: capture skills, anti-patterns, insights | Learning + Memory | Yes — after non-trivial tasks | — |
+| `meta-propose-skill` | Evaluate, create, deepen, or merge skills | Memory | On demand | — |
+| `meta-commit` | Leverage git commit as learning signal: reflect → capture → commit | All three | On user request | — |
+| `meta-self-audit` | Autonomous pattern discovery across session logs | Learning + Memory | Every ~5 sessions or on demand | — |
+| `meta-evolve` | Propose modifications to meta-skills and hooks (requires user approval) | All three | After self-audit or on demand | — |
 
 ## Skill Registry
 
@@ -38,6 +49,18 @@ Maturity levels: **draft** (0-1 uses) → **proven** (2-4 uses) → **battle-tes
 ## Skill Candidates
 
 See `skill-candidates.md` for patterns observed but not yet promoted.
+
+## Memory Hierarchy
+
+This file is the **semantic layer** of the three-tier memory hierarchy:
+
+| Layer | Location | Purpose | Managed By |
+|-------|----------|---------|------------|
+| Episodic | `sessions/`, `episodic-memory.md` | Raw session experiences, tagged for retrieval | `/meta-learn` (append), `/meta-self-audit` (prune) |
+| Semantic | `MEMORY.md` (this file), `ANTI_PATTERN.md`, `topic-index.md` | Extracted principles, facts, patterns | `/meta-learn` (update), `/meta-evolve` (restructure) |
+| Procedural | `commands/`, `procedural-memory.md` | Executable skills with performance tracking | `/meta-propose-skill` (create), `/meta-evolve` (refine) |
+
+Consolidation flow: episodic → semantic via `/meta-learn`; semantic → procedural via `/meta-propose-skill`.
 
 ## Project Insights
 

@@ -15,5 +15,8 @@ Maps topics to detailed memory files.
 | Agent governance | meta, hooks, skills, enforcement | topic-index.md (this file) | Framework design, hooks, session tracking |
 | Anti-patterns | meta, mistakes, corrections | ANTI_PATTERN.md | Documented error patterns with tags |
 | Skill candidates | skills, patterns, promotion | skill-candidates.md | Patterns not yet promoted to skills |
+| Cognitive architecture | intelligence, motivation, learning, memory | cognitive-architecture.md | Three pillars of human-level intelligence |
+| Episodic memory | memory, episodes, sessions, retrieval | episodic-memory.md | Session experience index for pattern retrieval |
+| Procedural memory | memory, skills, performance, adaptation | procedural-memory.md | Skill performance tracking and adaptation history |
 
 <!-- Add new topic files as they are created. -->

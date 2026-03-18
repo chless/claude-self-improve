@@ -13,20 +13,26 @@ EXPECTED_FILES = [
     ".claude/hooks/session-init.sh",
     ".claude/hooks/pre-edit-governance.sh",
     ".claude/hooks/post-edit-tracker.sh",
+    ".claude/hooks/motivation-tracker.sh",
     ".claude/hooks/stop-reflection-gate.sh",
     ".claude/commands/README.md",
     ".claude/commands/meta-anti-patterns.md",
     ".claude/commands/meta-commit.md",
     ".claude/commands/meta-evolve.md",
     ".claude/commands/meta-learn.md",
+    ".claude/commands/meta-motivation.md",
     ".claude/commands/meta-propose-skill.md",
     ".claude/commands/meta-scope-guard.md",
     ".claude/commands/meta-self-audit.md",
+    ".claude/commands/meta-situational-learn.md",
     ".claude/commands/refactor.md",
     ".claude/commands/code-review.md",
     ".claude/commands/new-subpackage.md",
     ".claude/memory/MEMORY.md",
     ".claude/memory/ANTI_PATTERN.md",
+    ".claude/memory/cognitive-architecture.md",
+    ".claude/memory/episodic-memory.md",
+    ".claude/memory/procedural-memory.md",
     ".claude/memory/skill-candidates.md",
     ".claude/memory/topic-index.md",
     ".claude/memory/sessions/.gitkeep",
@@ -90,6 +96,37 @@ def test_settings_json_is_valid(tmp_path):
     assert "hooks" in settings
     for event in ("SessionStart", "PreToolUse", "PostToolUse", "Stop"):
         assert event in settings["hooks"]
+
+
+def test_cognitive_architecture_pillars_present(tmp_path):
+    """Three pillars of human-level intelligence must be wired into governance."""
+    run_init(target=str(tmp_path))
+    claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
+    memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
+    # CLAUDE.md references all three pillars
+    assert "Pillar 1: Motivation" in claude_md
+    assert "Pillar 2: Active Meta-Learning" in claude_md
+    assert "Pillar 3: Hierarchical Structured Memory" in claude_md
+    # MEMORY.md has cognitive architecture section
+    assert "Cognitive Architecture" in memory_md
+    assert "meta-motivation" in memory_md
+    assert "meta-situational-learn" in memory_md
+    # Memory hierarchy is documented
+    assert "Episodic" in memory_md
+    assert "Semantic" in memory_md
+    assert "Procedural" in memory_md
+
+
+def test_motivation_hook_in_settings(tmp_path):
+    """Motivation tracker hook must be configured in settings.json."""
+    run_init(target=str(tmp_path))
+    settings = json.loads(
+        (tmp_path / ".claude" / "settings.json").read_text()
+    )
+    post_hooks = settings["hooks"]["PostToolUse"]
+    bash_hooks = [h for h in post_hooks if h.get("matcher") == "Bash"]
+    assert len(bash_hooks) == 1
+    assert "motivation-tracker.sh" in bash_hooks[0]["hooks"][0]["command"]
 
 
 def test_no_domain_specific_content(tmp_path):
