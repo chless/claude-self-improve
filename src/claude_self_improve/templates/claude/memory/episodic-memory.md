@@ -1,4 +1,4 @@
-# Episodic Memory — Session Experience Index
+# Episodic Memory — Pillar 3: Memory (Base Layer)
 
 This file indexes raw session experiences for pattern retrieval. It sits at the
 base of the memory hierarchy: episodic (here) → semantic (MEMORY.md) → procedural (commands/).

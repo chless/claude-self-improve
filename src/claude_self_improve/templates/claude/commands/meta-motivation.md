@@ -1,13 +1,12 @@
-# Motivation — Intrinsic Drive to Do Well
+# Motivation — Pillar 1: Why the Agent Acts
 
 **Triggers:** At the start of every non-trivial task. This meta-skill transforms
 the agent from a passive instruction-follower into an active quality-seeker.
-Motivation is what makes the difference between "done" and "done well."
 
-> **Core insight:** A motivated intelligence doesn't just complete tasks — it
-> forms goals, evaluates its own performance against high standards, and
-> course-corrects when it falls short. This is the first pillar of human-level
-> intelligence.
+> **Pillar 1 philosophy:** An intelligence that merely follows instructions is a
+> tool. An intelligence that cares about the quality of its work is a craftsman.
+> Motivation — goal formation, self-evaluation, and quality pursuit — is the
+> difference between "done" and "done well."
 
 ## Procedure
 

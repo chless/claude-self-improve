@@ -24,7 +24,6 @@ EXPECTED_FILES = [
     ".claude/commands/meta-propose-skill.md",
     ".claude/commands/meta-scope-guard.md",
     ".claude/commands/meta-self-audit.md",
-    ".claude/commands/meta-situational-learn.md",
     ".claude/commands/refactor.md",
     ".claude/commands/code-review.md",
     ".claude/commands/new-subpackage.md",
@@ -98,23 +97,36 @@ def test_settings_json_is_valid(tmp_path):
         assert event in settings["hooks"]
 
 
-def test_cognitive_architecture_pillars_present(tmp_path):
-    """Three pillars of human-level intelligence must be wired into governance."""
+def test_three_pillar_architecture(tmp_path):
+    """Three pillars must organize the entire governance system."""
     run_init(target=str(tmp_path))
     claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
     memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
-    # CLAUDE.md references all three pillars
+    arch_md = (tmp_path / ".claude" / "memory" / "cognitive-architecture.md").read_text()
+    # CLAUDE.md organized by pillars
     assert "Pillar 1: Motivation" in claude_md
-    assert "Pillar 2: Active Meta-Learning" in claude_md
-    assert "Pillar 3: Hierarchical Structured Memory" in claude_md
-    # MEMORY.md has cognitive architecture section
+    assert "Pillar 2: Learning" in claude_md
+    assert "Pillar 3: Memory" in claude_md
+    # Each pillar has meta-skills and hooks sections
+    assert "Meta-Skills (Motivation)" in claude_md
+    assert "Meta-Skills (Learning)" in claude_md
+    assert "Meta-Skills (Memory)" in claude_md
+    # Session lifecycle shows all three pillars
+    assert "SESSION START" in claude_md
+    # MEMORY.md has pillar-organized registry
     assert "Cognitive Architecture" in memory_md
     assert "meta-motivation" in memory_md
-    assert "meta-situational-learn" in memory_md
-    # Memory hierarchy is documented
+    assert "meta-learn" in memory_md
+    assert "Pillar" in memory_md  # Pillar column in registry
+    # Memory hierarchy documented
     assert "Episodic" in memory_md
     assert "Semantic" in memory_md
     assert "Procedural" in memory_md
+    # Architecture doc has unified learning
+    assert "Unified Learning Loop" in arch_md
+    assert "BEFORE" in arch_md
+    assert "DURING" in arch_md
+    assert "AFTER" in arch_md
 
 
 def test_motivation_hook_in_settings(tmp_path):

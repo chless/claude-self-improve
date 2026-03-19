@@ -1,4 +1,4 @@
-# Procedural Memory — Skill Performance and Adaptation History
+# Procedural Memory — Pillar 3: Memory (Top Layer)
 
 This file tracks how skills perform in practice and how they've been adapted
 over time. It sits at the top of the memory hierarchy: episodic (sessions/) →

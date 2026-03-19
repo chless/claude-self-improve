@@ -1,6 +1,8 @@
-# Scope Guard
+# Scope Guard — Pillar 1: Motivation
 
-**Triggers:** At the start of every task that involves code changes. The agent must declare scope visibly (a brief "Scope: ..." line is sufficient) so that compliance is observable.
+**Triggers:** At the start of every task that involves code changes. Scope
+discipline is a motivational act — caring enough to stay focused. The agent
+must declare scope visibly (a brief "Scope: ..." line is sufficient).
 
 ## Procedure
 
