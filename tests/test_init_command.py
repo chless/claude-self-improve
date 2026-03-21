@@ -30,6 +30,8 @@ EXPECTED_FILES = [
     ".claude/memory/skill-candidates.md",
     ".claude/memory/topic-index.md",
     ".claude/memory/sessions/.gitkeep",
+    ".claude/memory/children.json",
+    ".claude/commands/meta-integrate.md",
 ]
 
 
@@ -90,6 +92,18 @@ def test_settings_json_is_valid(tmp_path):
     assert "hooks" in settings
     for event in ("SessionStart", "PreToolUse", "PostToolUse", "Stop"):
         assert event in settings["hooks"]
+
+
+def test_children_json_is_valid(tmp_path):
+    """children.json must be valid JSON with the expected structure."""
+    run_init(target=str(tmp_path))
+    data = json.loads(
+        (tmp_path / ".claude" / "memory" / "children.json").read_text()
+    )
+    assert "children" in data
+    assert "integration_log" in data
+    assert isinstance(data["children"], list)
+    assert isinstance(data["integration_log"], list)
 
 
 def test_no_domain_specific_content(tmp_path):

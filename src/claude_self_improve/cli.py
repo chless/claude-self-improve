@@ -6,6 +6,11 @@ import sys
 from claude_self_improve import __version__
 from claude_self_improve.init_command import run_init
 from claude_self_improve.link_command import run_link
+from claude_self_improve.register_command import (
+    run_list_children,
+    run_register,
+    run_unregister,
+)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -52,6 +57,58 @@ def main(argv: list[str] | None = None) -> int:
         help="Project directory containing .claude/ (default: current directory)",
     )
 
+    # register subcommand
+    register_parser = subparsers.add_parser(
+        "register",
+        help="Register a child repo for intelligence integration",
+    )
+    register_parser.add_argument(
+        "child_source",
+        type=str,
+        help="Local path or remote git URL of the child repo",
+    )
+    register_parser.add_argument(
+        "--alias",
+        type=str,
+        default=None,
+        help="Short alias for the child (default: directory/repo basename)",
+    )
+    register_parser.add_argument(
+        "--target",
+        type=str,
+        default=".",
+        help="Parent directory containing .claude/ (default: current directory)",
+    )
+
+    # unregister subcommand
+    unregister_parser = subparsers.add_parser(
+        "unregister",
+        help="Remove a registered child repo",
+    )
+    unregister_parser.add_argument(
+        "alias",
+        type=str,
+        help="Alias of the child to remove",
+    )
+    unregister_parser.add_argument(
+        "--target",
+        type=str,
+        default=".",
+        help="Parent directory containing .claude/ (default: current directory)",
+    )
+
+    # children subcommand
+    children_parser = subparsers.add_parser(
+        "children",
+        help="List registered child repos",
+    )
+    children_parser.add_argument(
+        "--target",
+        type=str,
+        default=".",
+        help="Parent directory containing .claude/ (default: current directory)",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command is None:
@@ -63,5 +120,18 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "link":
         return run_link(target=args.target)
+
+    if args.command == "register":
+        return run_register(
+            target=args.target,
+            child_source=args.child_source,
+            alias=args.alias,
+        )
+
+    if args.command == "unregister":
+        return run_unregister(target=args.target, alias=args.alias)
+
+    if args.command == "children":
+        return run_list_children(target=args.target)
 
     return 0

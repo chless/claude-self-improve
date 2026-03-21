@@ -150,12 +150,17 @@ non-trivial work. It triggers the full reflection loop (meta-learn) before
 committing, capturing skills, anti-patterns, and memory updates alongside
 code in one atomic commit.
 
-### Autonomous Evolution: `/meta-self-audit` and `/meta-evolve`
+### Autonomous Evolution: `/meta-self-audit`, `/meta-evolve`, and `/meta-integrate`
 
 - **`/meta-self-audit`** — Reads session logs to discover patterns the agent
   didn't notice in real-time. Run every ~5 sessions or on demand.
 - **`/meta-evolve`** — Proposes modifications to meta-skills, hooks, and memory
   structure. All changes require explicit user approval before applying.
+- **`/meta-integrate`** — Reviews registered child repos' governance evolution
+  and proposes generalizable improvements to the parent framework. Extracts only
+  structural and procedural improvements (not domain content). All changes
+  require explicit user approval. Register children via
+  `claude-self-improve register <path-or-url>`.
 
 ### Discovering Skills
 

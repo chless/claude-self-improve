@@ -31,3 +31,32 @@ def test_link_without_init_fails(tmp_path, capsys):
     assert result == 1
     captured = capsys.readouterr()
     assert "not found" in captured.out
+
+
+def test_register_subcommand_recognized(tmp_path):
+    """register runs without crashing when given a valid child."""
+    # Set up parent with .claude/
+    main(["init", "--target", str(tmp_path)])
+    # Set up a child repo
+    child = tmp_path / "child-repo"
+    child.mkdir()
+    (child / ".git").mkdir()
+    (child / ".claude").mkdir()
+    result = main(["register", str(child), "--target", str(tmp_path)])
+    assert result == 0
+
+
+def test_unregister_subcommand_recognized(tmp_path, capsys):
+    """unregister fails gracefully with unknown alias."""
+    main(["init", "--target", str(tmp_path)])
+    result = main(["unregister", "nonexistent", "--target", str(tmp_path)])
+    assert result == 1
+    captured = capsys.readouterr()
+    assert "nonexistent" in captured.out
+
+
+def test_children_subcommand_recognized(tmp_path, capsys):
+    """children lists empty registry without crashing."""
+    main(["init", "--target", str(tmp_path)])
+    result = main(["children", "--target", str(tmp_path)])
+    assert result == 0
