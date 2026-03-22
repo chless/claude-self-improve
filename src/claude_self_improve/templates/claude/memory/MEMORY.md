@@ -24,6 +24,7 @@ Meta-skills govern how the agent thinks — they compound across all tasks.
 | `meta-commit` | Leverage git commit as learning signal: reflect → capture → commit | On user request | — |
 | `meta-self-audit` | Autonomous pattern discovery across session logs | Every ~5 sessions or on demand | — |
 | `meta-evolve` | Propose modifications to meta-skills and hooks (requires user approval) | After self-audit or on demand | — |
+| `meta-integrate` | Review child repos' governance evolution, extract generalizable improvements (requires user approval) | Periodically or on demand | — |
 
 ## Skill Registry
 
@@ -48,6 +49,16 @@ See `skill-candidates.md` for patterns observed but not yet promoted.
 ## Debugging Solutions
 
 <!-- Format: symptom → root cause → fix -->
+
+## Child Repo Intelligence
+
+Registered child repos and integration status are tracked in `children.json`.
+Use `/meta-integrate` to review child repos for generalizable governance improvements.
+
+| Child | Source | Last Integrated | Proposals Adopted |
+|-------|--------|----------------|-------------------|
+
+<!-- Populated automatically by /meta-integrate -->
 
 ## User Preferences
 
