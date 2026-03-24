@@ -150,7 +150,7 @@ Update this repo's records.
 
 ## What This Skill Cannot Do
 
-- **Force integration** on the target — the target's governance decides what enters
+- **Force integration** on the target — the target's governance decides what enters (the receiving intelligence evaluates injections through `/meta-inner-self` before integrating)
 - **Bypass provenance** — every injection must carry verifiable source identity
 - **Skip the generality filter** when injecting into the parent framework
 - **Replace `/meta-absorb-repo`** — absorption is bulk extraction; injection is targeted push

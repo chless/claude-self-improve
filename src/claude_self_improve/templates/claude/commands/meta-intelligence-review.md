@@ -1,6 +1,6 @@
 # Intelligence Review — Peer Review Between Stateful Intelligences
 
-**Triggers:** When this intelligence reviews another repo, or when processing incoming reviews left by peer/child repos. Invoked as `/meta-intelligence-review give <path-or-url>` or `/meta-intelligence-review process`.
+**Triggers:** When this intelligence reviews another repo, or when processing incoming reviews left by peer/child repos. Invoked as `/meta-intelligence-review give <path-or-url>` or `/meta-intelligence-review process [<repo-url> <branch>]`.
 
 > **Core principle:** Git repos are stateful intelligences — each grows through commits, and branches are different growth paths. The gap between humans and AIs is statefulness; git bridges it. Peer review between stateful intelligences enables multi-perspective synthesis: comprehensively considering different viewpoints is more valuable than any single perspective. Every review carries full provenance (repo, branch, commit) so the receiving intelligence can trace perspectives back to their source context.
 
@@ -38,22 +38,29 @@ Establish this repo's identity as a reviewer — its "perspective credentials."
 
 #### Phase 2: Deep-Read Reviewee
 
-Read the target repo's `.claude/` structure to understand its intelligence.
+Read the target repo's `.claude/` structure to understand its intelligence, and capture the reviewee's provenance.
 
 1. Access the target repo (local path or clone from URL)
-2. Read these files (in order of priority):
+2. **Capture reviewee identity** (in the reviewee's repo):
+   ```bash
+   REVIEWEE_URL=$(git remote get-url origin 2>/dev/null || echo "local-only")
+   REVIEWEE_BRANCH=$(git branch --show-current)
+   REVIEWEE_COMMIT=$(git rev-parse HEAD)
+   ```
+   Assemble reviewee credentials alongside reviewer credentials — both are recorded in the Review Record.
+3. Read these files (in order of priority):
    - `CLAUDE.md` — governance conventions, three-pillar structure
    - `memory/MEMORY.md` — what it has learned, project insights
    - `memory/ANTI_PATTERN.md` — its discovered failure modes
    - `memory/cognitive-architecture.md` — its intelligence design
    - `commands/*.md` — its skills and meta-skills
    - `memory/sessions/session-log-*.md` — its behavioral ground truth
-3. Assess evolution trajectory:
+4. Assess evolution trajectory:
    ```bash
    git log --oneline --all -- ".claude/" | wc -l
    git log --stat --all -- ".claude/"
    ```
-4. Note: fewer than 5 governance commits means low signal — note this in the review.
+5. Note: fewer than 5 governance commits means low signal — note this in the review.
 
 #### Phase 3: Perspective-Grounded Review
 
@@ -99,10 +106,15 @@ Reasoning: [why this commit/code informs the observation]
 
 ### Mode B: Process Incoming Reviews
 
-This intelligence processes reviews left by others in `.claude/memory/reviews/`.
+This intelligence processes reviews left by others — either locally in `.claude/memory/reviews/`, or from another repo's branches.
+
+**Invocation:**
+- `/meta-intelligence-review process` — local reviews only (default)
+- `/meta-intelligence-review process <repo-url> <branch>` — also fetch reviews from a remote repo/branch
 
 #### Phase 1: Read All Pending Reviews
 
+**Local reviews:**
 1. List review files:
    ```bash
    ls .claude/memory/reviews/*.md 2>/dev/null
@@ -110,18 +122,39 @@ This intelligence processes reviews left by others in `.claude/memory/reviews/`.
 2. Check `review-registry.md` — identify which reviews have not yet been processed (no "Processed" mark).
 3. Read all unprocessed review files.
 
-#### Phase 2: Verify Reviewer Context
+**Remote reviews** (when repo-url and branch are provided):
+1. Clone the remote repo at the specified branch (shallow, temporary):
+   ```bash
+   git clone --depth 1 --branch <branch> <repo-url> /tmp/remote-reviews-$(date +%s)
+   ```
+2. List review files in the remote repo:
+   ```bash
+   ls /tmp/remote-reviews-*/.claude/memory/reviews/*.md 2>/dev/null
+   ```
+3. **Filter:** Only process reviews where the Reviewee Identity section matches THIS repo (by URL or repo name). Ignore reviews addressed to other repos.
+4. Copy matching reviews to local `.claude/memory/reviews/` (with `remote-` prefix to distinguish origin).
+5. Clean up:
+   ```bash
+   rm -rf /tmp/remote-reviews-*
+   ```
+6. Add the copied reviews to the unprocessed list alongside local reviews.
+
+This enables processing reviews from any repo's branches — not just reviews committed directly to this repo.
+
+#### Phase 2: Verify Provenance (Both Sides)
 
 For each review:
 1. Note the reviewer's repo URL, branch, and commit hash from the review's "Reviewer Identity" section.
-2. These are the reviewer's "perspective credentials" — the specific intelligence state that formed this viewpoint.
-3. If deeper understanding of a specific observation is needed, the user can fetch the reviewer's repo at the cited commit:
+2. Note the reviewee's repo URL, branch, and commit hash from the review's "Reviewee Identity" section.
+   - Verify that the reviewee identity matches this repo's current or historical state. If the commit is old, the review was made against an earlier version — flag observations that may no longer apply.
+3. These are the "perspective credentials" for both sides — the exact state of both intelligences when the review was made.
+4. If deeper understanding of a specific observation is needed, the user can fetch the reviewer's repo at the cited commit:
    ```bash
    git clone <reviewer-url> /tmp/reviewer-context
    cd /tmp/reviewer-context && git checkout <commit-hash>
    # Now read the specific files cited in the review's Source Context
    ```
-4. For now, work with the review text. Flag observations that would benefit from source context verification.
+5. For now, work with the review text. Flag observations that would benefit from source context verification.
 
 #### Phase 3: Multi-Perspective Synthesis
 
@@ -160,7 +193,7 @@ Route synthesized insights through existing governance — do NOT auto-apply.
 | Framework friction | Governance files | `/meta-evolve` evaluation |
 | Architecture improvements | `cognitive-architecture.md` | `/meta-evolve` proposal |
 
-Present all proposals to the user. The human decides what integrates.
+Before presenting proposals, evaluate each through `/meta-inner-self` — form this intelligence's own position on whether the proposal improves its governance. Present all proposals to the user with this intelligence's own assessment. The human decides what integrates.
 
 #### Phase 5: Update Registry
 
@@ -184,6 +217,13 @@ Present all proposals to the user. The human decides what integrates.
 - **Commit:** <hash at time of review>
 - **Domain:** <what this intelligence specializes in — 2-3 sentences>
 - **Access:** `git clone <url> && git checkout <commit>` for full source context
+
+## Reviewee Identity
+- **Repo:** <git remote URL>
+- **Branch:** <branch at time of review>
+- **Commit:** <hash at time of review>
+- **Domain:** <reviewee's specialization from its CLAUDE.md — 2-3 sentences>
+- **Access:** `git clone <url> && git checkout <commit>` for exact state reviewed
 
 ## Review Date
 <YYYY-MM-DD>

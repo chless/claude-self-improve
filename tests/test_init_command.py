@@ -27,6 +27,7 @@ EXPECTED_FILES = [
     ".claude/commands/meta-absorb-repo.md",
     ".claude/commands/meta-intelligence-review.md",
     ".claude/commands/meta-intelligence-inject.md",
+    ".claude/commands/meta-inner-self.md",
     ".claude/commands/refactor.md",
     ".claude/commands/code-review.md",
     ".claude/commands/new-subpackage.md",
@@ -218,11 +219,36 @@ def test_stateful_intelligence_network(tmp_path):
     # Registry has review/injection tracking
     assert "Reviews Received" in registry
     assert "Injections Sent" in registry
-    # Review skill has provenance fields
+    # Review skill has provenance fields for BOTH sides
     assert "Reviewer Identity" in review_md
+    assert "Reviewee Identity" in review_md
     assert "Commit" in review_md
     # Inject skill has provenance fields
     assert "Source Identity" in inject_md
     assert "provenance" in inject_md.lower()
     # Reviews directory exists
     assert (tmp_path / ".claude" / "memory" / "reviews").is_dir()
+
+
+def test_inner_self_integration(tmp_path):
+    """Inner self must be integrated into Motivation pillar."""
+    run_init(target=str(tmp_path))
+    claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
+    memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
+    arch_md = (
+        tmp_path / ".claude" / "memory" / "cognitive-architecture.md"
+    ).read_text()
+    inner_self = (
+        tmp_path / ".claude" / "commands" / "meta-inner-self.md"
+    ).read_text()
+    # Registered in CLAUDE.md under Motivation
+    assert "meta-inner-self" in claude_md
+    # Registered in MEMORY.md meta-skill registry
+    assert "meta-inner-self" in memory_md
+    # Architecture has Inner Self section
+    assert "Inner Self" in arch_md
+    # Inner self skill has evaluation structure
+    assert "Feasibility" in inner_self
+    assert "respectfully disagree" in inner_self.lower()
+    # Override rule is documented
+    assert "override" in inner_self.lower()

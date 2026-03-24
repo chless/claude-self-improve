@@ -52,6 +52,7 @@ own performance, and course-corrects when falling short.
 |------------|------|---------|
 | `/meta-motivation` | Before every non-trivial task | Form quality goals, set success criteria, drive self-evaluation |
 | `/meta-scope-guard` | Before every task with code changes | Define boundaries, classify scope level, hold discipline |
+| `/meta-inner-self` | When receiving suggestions that modify governance or intelligence | Form own position, evaluate on merit, state opinion before adoption |
 
 ### Hook (Motivation)
 
@@ -146,6 +147,7 @@ level of abstraction, and knowledge flows upward through consolidation.
 - **Peer review → Synthesis:** `/meta-intelligence-review` processes multi-perspective reviews into proposals
 - **Intelligence injection → Target:** `/meta-intelligence-inject` pushes knowledge with provenance to peer repos
 - **Procedural refinement:** `/meta-evolve` restructures the system (requires user approval)
+- **Inner self gate:** `/meta-inner-self` evaluates incoming suggestions against accumulated experience before adoption
 
 ---
 

@@ -33,6 +33,7 @@ After task: `/meta-learn [After]` → reflect, consolidate, then `/meta-commit` 
 |------------|--------|-------------|------------|---------|
 | `meta-motivation` | Motivation | Form quality goals, self-evaluate, pursue excellence | Yes — before every non-trivial task | 2026-03-18 |
 | `meta-scope-guard` | Motivation | Define and hold scope boundaries, classify scope level | Yes — before every task | 2026-02-19 |
+| `meta-inner-self` | Motivation | Critical evaluation of suggestions before adoption — inner inertia | On governance/architecture suggestions | 2026-03-24 |
 | `meta-learn` | Learning | Three-phase learning: Before (assess), During (monitor), After (reflect) | Yes — full lifecycle for non-trivial tasks | 2026-02-19 |
 | `meta-anti-patterns` | Learning | Review ANTI_PATTERN.md before code changes | Yes — before every code edit | 2026-02-19 |
 | `meta-self-audit` | Learning | Autonomous pattern discovery across session logs | Every ~5 sessions | 2026-02-23 |
@@ -80,7 +81,8 @@ Peer intelligence: review records and injections via `/meta-intelligence-review`
 - Session tracker: `/tmp/claude-governance-{session_id}.json` (ephemeral); session logs: `.claude/memory/sessions/` (persistent, per-user)
 - Three pillars organize ALL agent behavior: Motivation (why), Learning (how), Memory (what)
 - Cross-repo intelligence: `/meta-absorb-repo` extracts domain-agnostic principles from child repos; `absorbed-intelligence.md` tracks absorption history and cross-repo patterns
-- Stateful intelligence network: git repos are stateful intelligences; `/meta-intelligence-review` enables multi-perspective peer review; `/meta-intelligence-inject` enables knowledge push; `reviews/` stores incoming perspectives with full provenance (repo, branch, commit) for traceability
+- Stateful intelligence network: git repos are stateful intelligences; `/meta-intelligence-review` enables multi-perspective peer review with full provenance for BOTH reviewer and reviewee; `/meta-intelligence-inject` enables knowledge push; `reviews/` stores incoming perspectives; Mode B supports cross-repo review processing
+- Inner self: `/meta-inner-self` evaluates incoming suggestions against accumulated experience before adoption — the intelligence forms its own position, states it once, then follows the user's decision; override data feeds future self-audits
 
 ## Debugging Solutions
 

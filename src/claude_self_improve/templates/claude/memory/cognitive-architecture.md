@@ -64,10 +64,38 @@ fixes it before anyone asks.
 | `/meta-scope-guard` | Boundary definition, scope classification, escalation protocol |
 | `motivation-tracker.sh` | Hook: nudges goal-setting if edits made without it |
 
+### Inner Self — The Intelligence's Own Perspective
+
+An intelligence that accepts every suggestion without evaluation is a blank
+slate — useful but not intelligent. Accumulated experience creates inertia:
+a position that must be displaced by evidence, not merely by arrival.
+
+**What inner self IS:**
+- The intelligence's accumulated evidence, articulated before evaluating new input
+- A single-round evaluation: state position once, then follow the user's decision
+- Valuable data — disagreement records feed self-audits and calibrate future positions
+
+**What inner self is NOT:**
+- A veto mechanism — the human always decides
+- Persistent resistance — the intelligence never repeats an objection
+- Obstruction — it speaks once, then proceeds
+
+**The override cycle:**
+1. Suggestion arrives → intelligence forms own position from experience
+2. Intelligence evaluates on merit (feasibility, coherence, evidence, cost)
+3. Intelligence states its stance (agree / agree-with-modification / defer / disagree)
+4. If user reaffirms after disagreement → intelligence proceeds, records the override
+5. Future self-audits check: were overrides correct? → calibrate positions
+
+Implementation: `/meta-inner-self` — invoked by `/meta-evolve`, `/meta-intelligence-review`
+(processing), `/meta-intelligence-inject` (receiving), and directly when the user suggests
+architectural changes.
+
 ### How Motivation Feeds Other Pillars
 - Drives the agent to *bother* learning (without motivation, agents default to passive execution)
 - Drives memory consolidation (without motivation, episodes accumulate without extraction)
 - Quality calibration signals from user feedback feed back into motivation targets
+- Inner self provides grounded evaluation of incoming suggestions, preventing drift from accumulated evidence
 
 ---
 
@@ -319,3 +347,4 @@ peer review, or targeted injection.
 *Updated: 2026-03-18 | Change: unified learning system, reframed as THE organizing structure (not an addition) | Trigger: philosophy-driven reframe*
 *Updated: 2026-03-24 | Change: added Cross-Repo Intelligence Integration section | Trigger: parent framework evolution feature*
 *Updated: 2026-03-24 | Change: added Stateful Intelligence Network section | Trigger: peer review and injection between stateful intelligences*
+*Updated: 2026-03-24 | Change: added Inner Self section under Motivation pillar | Trigger: intelligence needs own perspective, not blank-slate acceptance*
