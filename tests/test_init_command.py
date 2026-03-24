@@ -24,6 +24,7 @@ EXPECTED_FILES = [
     ".claude/commands/meta-propose-skill.md",
     ".claude/commands/meta-scope-guard.md",
     ".claude/commands/meta-self-audit.md",
+    ".claude/commands/meta-absorb-repo.md",
     ".claude/commands/refactor.md",
     ".claude/commands/code-review.md",
     ".claude/commands/new-subpackage.md",
@@ -34,6 +35,7 @@ EXPECTED_FILES = [
     ".claude/memory/procedural-memory.md",
     ".claude/memory/skill-candidates.md",
     ".claude/memory/topic-index.md",
+    ".claude/memory/absorbed-intelligence.md",
     ".claude/memory/sessions/.gitkeep",
 ]
 
@@ -160,3 +162,25 @@ def test_no_domain_specific_content(tmp_path):
             assert "orca" not in content, (
                 f"Found 'orca' in {path.name}"
             )
+
+
+def test_cross_repo_intelligence_integration(tmp_path):
+    """Cross-repo absorption must be integrated into all three pillars."""
+    run_init(target=str(tmp_path))
+    claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
+    memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
+    arch_md = (
+        tmp_path / ".claude" / "memory" / "cognitive-architecture.md"
+    ).read_text()
+    absorbed = (
+        tmp_path / ".claude" / "memory" / "absorbed-intelligence.md"
+    ).read_text()
+    # meta-absorb-repo registered in CLAUDE.md under Learning
+    assert "meta-absorb-repo" in claude_md
+    # Registered in MEMORY.md meta-skill registry under Learning pillar
+    assert "meta-absorb-repo" in memory_md
+    # cognitive-architecture.md has cross-repo section
+    assert "Cross-Repo" in arch_md
+    # absorbed-intelligence.md references cross-repo patterns
+    assert "Cross-Repo Patterns" in absorbed
+    assert "Absorption Log" in absorbed

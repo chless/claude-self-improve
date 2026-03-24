@@ -19,4 +19,6 @@ Maps topics to detailed memory files.
 | Episodic memory | memory, episodes, sessions, retrieval | episodic-memory.md | Session experience index for pattern retrieval |
 | Procedural memory | memory, skills, performance, adaptation | procedural-memory.md | Skill performance tracking and adaptation history |
 
+| Absorbed intelligence | absorption, generality, child-repos, cross-repo | absorbed-intelligence.md | Cross-repo absorption history and pattern discovery |
+
 <!-- Add new topic files as they are created. -->

@@ -36,6 +36,7 @@ After task: `/meta-learn [After]` → reflect, consolidate, then `/meta-commit` 
 | `meta-learn` | Learning | Three-phase learning: Before (assess), During (monitor), After (reflect) | Yes — full lifecycle for non-trivial tasks | 2026-02-19 |
 | `meta-anti-patterns` | Learning | Review ANTI_PATTERN.md before code changes | Yes — before every code edit | 2026-02-19 |
 | `meta-self-audit` | Learning | Autonomous pattern discovery across session logs | Every ~5 sessions | 2026-02-23 |
+| `meta-absorb-repo` | Learning | Extract transferable intelligence from child repos via generality filter | On demand | 2026-03-24 |
 | `meta-propose-skill` | Memory | Consolidate semantic knowledge into procedural skills | On demand | 2026-02-19 |
 | `meta-commit` | Memory | Atomic persistence: reflect → capture → commit | On user request | 2026-02-19 |
 | `meta-evolve` | Memory | Propose modifications to governance (requires user approval) | After self-audit | 2026-02-23 |
@@ -61,10 +62,11 @@ See `skill-candidates.md` for patterns observed but not yet promoted.
 | Layer | Location | Purpose | Managed By |
 |-------|----------|---------|------------|
 | Episodic | `sessions/`, `episodic-memory.md` | Raw session experiences, tagged for retrieval | `/meta-learn [After]` (append), `/meta-self-audit` (prune) |
-| Semantic | `MEMORY.md` (this file), `ANTI_PATTERN.md`, `topic-index.md` | Extracted principles, facts, patterns | `/meta-learn [After]` (update), `/meta-evolve` (restructure) |
+| Semantic | `MEMORY.md` (this file), `ANTI_PATTERN.md`, `topic-index.md`, `absorbed-intelligence.md` | Extracted principles, facts, patterns | `/meta-learn [After]` (update), `/meta-evolve` (restructure), `/meta-absorb-repo` (cross-repo) |
 | Procedural | `commands/`, `procedural-memory.md` | Executable skills with performance tracking | `/meta-propose-skill` (create), `/meta-evolve` (refine) |
 
 Consolidation: episodic → semantic via `/meta-learn [After]`; semantic → procedural via `/meta-propose-skill`.
+Cross-repo integration: child `.claude/` → parent semantic via `/meta-absorb-repo`.
 
 ---
 
@@ -74,6 +76,7 @@ Consolidation: episodic → semantic via `/meta-learn [After]`; semantic → pro
 - Governance hooks enforce meta-skills via `.claude/settings.json` (SessionStart, PreToolUse, PostToolUse, Stop)
 - Session tracker: `/tmp/claude-governance-{session_id}.json` (ephemeral); session logs: `.claude/memory/sessions/` (persistent, per-user)
 - Three pillars organize ALL agent behavior: Motivation (why), Learning (how), Memory (what)
+- Cross-repo intelligence: `/meta-absorb-repo` extracts domain-agnostic principles from child repos; `absorbed-intelligence.md` tracks absorption history and cross-repo patterns
 
 ## Debugging Solutions
 

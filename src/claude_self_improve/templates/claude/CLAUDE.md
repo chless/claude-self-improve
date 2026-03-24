@@ -79,6 +79,7 @@ post-task reflection, but real-time situational awareness.
 | `/meta-learn` | Full task lifecycle (Before/During/After) | Assess situation, monitor progress, adapt mid-task, reflect and consolidate |
 | `/meta-anti-patterns` | Before every code change | Review documented mistakes — learning from negative examples |
 | `/meta-self-audit` | Every ~5 sessions or on demand | Discover patterns across session logs the agent missed in real-time |
+| `/meta-absorb-repo` | When parent absorbs child repos | Extract transferable principles from child `.claude/` history via generality filter |
 
 ### Hook (Learning)
 
@@ -139,6 +140,7 @@ level of abstraction, and knowledge flows upward through consolidation.
 
 - **Episodic → Semantic:** `/meta-learn` (After phase) extracts principles from episodes
 - **Semantic → Procedural:** `/meta-propose-skill` promotes patterns to executable skills
+- **Cross-repo → Parent:** `/meta-absorb-repo` extracts child intelligence through generality filter
 - **Procedural refinement:** `/meta-evolve` restructures the system (requires user approval)
 
 ---

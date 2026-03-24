@@ -172,5 +172,80 @@ This is what it means to act like a human being: motivated, adaptive,
 learning behavior that compounds.
 
 ---
+
+## Cross-Repo Intelligence Integration
+
+When this framework is deployed as a **parent template** that scaffolds child
+repos, each child evolves specialized intelligence through real domain usage.
+The parent can absorb what children discover — but only what generalizes.
+
+### The Parent-Child Relationship
+
+```
+  PARENT FRAMEWORK                    CHILD DEPLOYMENTS
+  ──────────────────                  ──────────────────
+  Domain-agnostic                     Domain-specialized
+  Scaffolds governance                Evolves under real usage
+  Absorbs transferable principles     Discovers domain-specific patterns
+  Improves template for all future    Improves one deployment
+  children
+```
+
+The parent's value is generality. Every absorbed principle must preserve it.
+
+### The Generality Filter (Four Gates)
+
+Every candidate extracted from a child repo must pass all four gates:
+
+1. **Three-Substitution Test** — Strip domain nouns, replace with three unrelated
+   domains. The principle must hold in all three. This is the primary filter that
+   prevents domain specifics from leaking into the parent.
+
+2. **Pillar Ownership** — The candidate must map to Motivation, Learning, or Memory.
+   If it doesn't fit the cognitive architecture, it is a domain fact, not a framework
+   principle.
+
+3. **Existing Coverage** — Check whether the parent already implies this principle.
+   If yes, the child's contribution is evidence (strengthens existing principle),
+   not a new addition.
+
+4. **Source Layer Routing** — Route to the correct approval mechanism:
+   anti-patterns → `/meta-evolve`, skills → `/meta-propose-skill`, insights → MEMORY.md.
+
+### Absorption Flow
+
+```
+  CHILD REPO                    GENERALITY           PARENT FRAMEWORK
+  ──────────                    FILTER               ────────────────
+  Episodic (sessions)     ──►   Four gates    ──►    Semantic (MEMORY.md,
+  Semantic (MEMORY.md)          strip domain          absorbed-intelligence.md)
+  Procedural (commands/)        nouns, test    ──►   Procedural (commands/)
+  Anti-patterns                 across domains        via /meta-propose-skill
+```
+
+### The Approval Gate Invariant
+
+Even cross-repo proposals go through `/meta-evolve` or `/meta-propose-skill`.
+The human always decides what enters the parent framework. This invariant
+cannot be bypassed — `/meta-absorb-repo` produces an Absorption Report, not
+a mutation.
+
+### Signal Quality
+
+Not all child repos carry equal weight:
+
+| Governance Commits | Signal Level | Implication |
+|-------------------|-------------|-------------|
+| < 5 | LOW | Framework scaffolded but barely used. Skip or proceed with caution. |
+| 5–15 | MODERATE | Some real evolution. Weight evidence lower. |
+| 15+ | HIGH | Substantial evolution under real usage. Full extraction warranted. |
+
+Commit velocity on `.claude/` distinguishes active evolution from unused
+scaffolding. A file touched in 15 commits was refined by real failure. A file
+never touched after creation is either perfect or ignored — session logs
+distinguish which.
+
+---
 *Created: 2026-03-18 | Source: Three pillars of human-level intelligence architecture*
 *Updated: 2026-03-18 | Change: unified learning system, reframed as THE organizing structure (not an addition) | Trigger: philosophy-driven reframe*
+*Updated: 2026-03-24 | Change: added Cross-Repo Intelligence Integration section | Trigger: parent framework evolution feature*
