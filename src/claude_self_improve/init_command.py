@@ -1,7 +1,6 @@
 """Core logic for the ``init`` subcommand."""
 
 import importlib.resources
-import os
 import shutil
 import stat
 from pathlib import Path
@@ -28,9 +27,7 @@ def run_init(target: str = ".", force: bool = False) -> int:
         )
 
     # 3. Locate bundled template
-    source_dir = (
-        importlib.resources.files("claude_self_improve.templates") / "claude"
-    )
+    source_dir = importlib.resources.files("claude_self_improve.templates") / "claude"
 
     # 4. Copy templates → .claude/
     if claude_dir.exists():
@@ -44,12 +41,7 @@ def run_init(target: str = ".", force: bool = False) -> int:
     if hooks_dir.exists():
         for hook in hooks_dir.iterdir():
             if hook.suffix == ".sh":
-                hook.chmod(
-                    hook.stat().st_mode
-                    | stat.S_IXUSR
-                    | stat.S_IXGRP
-                    | stat.S_IXOTH
-                )
+                hook.chmod(hook.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
 
     # 6. Success output
     print(f"Initialized .claude/ governance framework in {target_path}\n")
@@ -59,24 +51,16 @@ def run_init(target: str = ".", force: bool = False) -> int:
     print("Next steps:")
     print("  1. Review and customize .claude/CLAUDE.md for your project")
     print("  2. Commit .claude/ to your repository:")
-    print(
-        "     git add .claude/ && git commit -m "
-        "'feat: add AI agent governance framework'"
-    )
+    print("     git add .claude/ && git commit -m 'feat: add AI agent governance framework'")
     print("  3. Set up memory symlink (one-time per machine):")
     print("     claude-self-improve link")
-    print(
-        "  4. Start a Claude Code session — governance hooks "
-        "activate automatically"
-    )
+    print("  4. Start a Claude Code session — governance hooks activate automatically")
     return 0
 
 
 def _print_tree(directory: Path, prefix: str = "") -> None:
     """Print a simple directory tree."""
-    entries = sorted(
-        directory.iterdir(), key=lambda p: (p.is_file(), p.name)
-    )
+    entries = sorted(directory.iterdir(), key=lambda p: (p.is_file(), p.name))
     for i, entry in enumerate(entries):
         is_last = i == len(entries) - 1
         connector = "└── " if is_last else "├── "

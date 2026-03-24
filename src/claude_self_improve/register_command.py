@@ -1,18 +1,17 @@
 """Core logic for the ``register``, ``unregister``, and ``children`` subcommands."""
 
+from __future__ import annotations
+
 import json
-import re
 import shutil
 import subprocess
 from datetime import date
 from pathlib import Path
 
-_REMOTE_PATTERNS = (re.compile(r"://"), re.compile(r"\.git$"), re.compile(r"^git@"))
-
 
 def _is_remote_url(source: str) -> bool:
-    """Return True if *source* looks like a remote git URL."""
-    return any(pat.search(source) for pat in _REMOTE_PATTERNS)
+    """Return True if *source* looks like a git URL (not a plain local path)."""
+    return "://" in source or source.startswith("git@")
 
 
 def _default_alias(source: str) -> str:
@@ -45,10 +44,7 @@ def run_register(
     config_path = target_path / ".claude" / "memory" / "children.json"
 
     if not (target_path / ".claude").exists():
-        print(
-            "Error: .claude/ not found. "
-            "Run `claude-self-improve init` first."
-        )
+        print("Error: .claude/ not found. Run `claude-self-improve init` first.")
         return 1
 
     if not child_source:
@@ -79,6 +75,7 @@ def run_register(
             ["git", "clone", "--depth=50", child_source, str(clone_dir)],
             capture_output=True,
             text=True,
+            timeout=120,
         )
         if result.returncode != 0:
             print(f"Error: git clone failed:\n{result.stderr}")
