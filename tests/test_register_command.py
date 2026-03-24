@@ -1,12 +1,10 @@
 """Tests for the register/unregister/children command logic."""
 
 import json
-from unittest.mock import patch
-
-import pytest
 
 from claude_self_improve.init_command import run_init
 from claude_self_improve.register_command import (
+    _is_remote_url,
     run_list_children,
     run_register,
     run_unregister,
@@ -73,9 +71,7 @@ def test_register_default_alias(tmp_path):
 def test_register_custom_alias(tmp_path):
     parent = _setup_parent(tmp_path / "parent")
     child = _setup_child(tmp_path, "my-repo")
-    run_register(
-        target=str(parent), child_source=str(child), alias="custom-name"
-    )
+    run_register(target=str(parent), child_source=str(child), alias="custom-name")
     config = parent / ".claude" / "memory" / "children.json"
     data = json.loads(config.read_text())
     assert data["children"][0]["alias"] == "custom-name"
@@ -86,9 +82,7 @@ def test_register_duplicate_alias_fails(tmp_path, capsys):
     child1 = _setup_child(tmp_path, "child1")
     child2 = _setup_child(tmp_path, "child2")
     run_register(target=str(parent), child_source=str(child1), alias="same")
-    result = run_register(
-        target=str(parent), child_source=str(child2), alias="same"
-    )
+    result = run_register(target=str(parent), child_source=str(child2), alias="same")
     assert result == 1
     captured = capsys.readouterr()
     assert "already registered" in captured.out
@@ -98,9 +92,7 @@ def test_register_duplicate_path_fails(tmp_path, capsys):
     parent = _setup_parent(tmp_path / "parent")
     child = _setup_child(tmp_path, "child")
     run_register(target=str(parent), child_source=str(child), alias="first")
-    result = run_register(
-        target=str(parent), child_source=str(child), alias="second"
-    )
+    result = run_register(target=str(parent), child_source=str(child), alias="second")
     assert result == 1
     captured = capsys.readouterr()
     assert "already registered" in captured.out
@@ -177,9 +169,10 @@ def test_register_remote_url_clones(tmp_path):
         env=env,
     )
 
+    remote_url = f"file://{remote}"
     result = run_register(
         target=str(parent),
-        child_source=str(remote),
+        child_source=remote_url,
         alias="remote-child",
     )
     assert result == 0
@@ -189,7 +182,7 @@ def test_register_remote_url_clones(tmp_path):
     entry = data["children"][0]
     assert entry["source"] == "remote"
     assert entry["alias"] == "remote-child"
-    assert entry["url"] == str(remote)
+    assert entry["url"] == remote_url
     # Clone directory should exist
     clone_dir = parent / ".claude" / "children" / "remote-child"
     assert clone_dir.exists()
@@ -271,3 +264,32 @@ def test_register_without_init_fails(tmp_path, capsys):
     assert result == 1
     captured = capsys.readouterr()
     assert ".claude/ not found" in captured.out
+
+
+# --- _is_remote_url edge cases ---
+
+
+def test_is_remote_url_https():
+    assert _is_remote_url("https://github.com/user/repo.git") is True
+
+
+def test_is_remote_url_ssh():
+    assert _is_remote_url("ssh://git@host/repo") is True
+
+
+def test_is_remote_url_git_at():
+    assert _is_remote_url("git@github.com:user/repo.git") is True
+
+
+def test_is_remote_url_local_path():
+    assert _is_remote_url("/home/user/project") is False
+
+
+def test_is_remote_url_local_bare_repo():
+    """Local bare repo ending in .git should NOT be treated as remote."""
+    assert _is_remote_url("/home/user/project.git") is False
+
+
+def test_is_remote_url_file_scheme():
+    """file:// URLs are valid git URLs and trigger clone behavior."""
+    assert _is_remote_url("file:///tmp/repo") is True

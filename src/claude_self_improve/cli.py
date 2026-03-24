@@ -1,7 +1,8 @@
 """CLI entry point for claude-self-improve."""
 
+from __future__ import annotations
+
 import argparse
-import sys
 
 from claude_self_improve import __version__
 from claude_self_improve.init_command import run_init
@@ -16,10 +17,7 @@ from claude_self_improve.register_command import (
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="claude-self-improve",
-        description=(
-            "Scaffold a .claude/ governance framework for "
-            "self-improving AI agents."
-        ),
+        description=("Scaffold a .claude/ governance framework for self-improving AI agents."),
     )
     parser.add_argument(
         "--version",

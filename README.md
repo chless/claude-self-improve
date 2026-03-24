@@ -101,6 +101,7 @@ claude-self-improve link [--target DIR]
 - Python >= 3.9
 - A git repository (recommended, not required)
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) or compatible AI coding agent
+- `jq` (used by governance hooks for JSON parsing — install via your system package manager)
 
 ## License
 

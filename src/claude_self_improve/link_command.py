@@ -9,19 +9,14 @@ def run_link(target: str = ".") -> int:
     memory_dir = target_path / ".claude" / "memory"
 
     if not memory_dir.exists():
-        print(
-            "Error: .claude/memory/ not found. "
-            "Run `claude-self-improve init` first."
-        )
+        print("Error: .claude/memory/ not found. Run `claude-self-improve init` first.")
         return 1
 
     # Claude Code stores per-project memory at
     # ~/.claude/projects/<escaped-path>/memory/
     # where the escaped path replaces / with -
     escaped = str(target_path).replace("/", "-")
-    claude_memory = (
-        Path.home() / ".claude" / "projects" / escaped / "memory"
-    )
+    claude_memory = Path.home() / ".claude" / "projects" / escaped / "memory"
 
     claude_memory.parent.mkdir(parents=True, exist_ok=True)
 
@@ -29,10 +24,7 @@ def run_link(target: str = ".") -> int:
         if claude_memory.is_symlink():
             claude_memory.unlink()
         else:
-            print(
-                f"Warning: {claude_memory} exists and is not a symlink. "
-                "Skipping."
-            )
+            print(f"Warning: {claude_memory} exists and is not a symlink. Skipping.")
             return 1
 
     claude_memory.symlink_to(memory_dir)

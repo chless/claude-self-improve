@@ -12,7 +12,7 @@ requires-python = ">=3.9"
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=7.0"]
+dev = ["pytest>=7.0", "ruff>=0.4"]
 
 [project.scripts]
 claude-self-improve = "claude_self_improve.cli:main"
@@ -25,3 +25,10 @@ where = ["src"]
     "templates/claude/**/*",
     "templates/claude/**/.gitkeep",
 ]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 99
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]

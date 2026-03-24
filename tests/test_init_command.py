@@ -3,8 +3,6 @@
 import json
 import os
 
-import pytest
-
 from claude_self_improve.init_command import run_init
 
 EXPECTED_FILES = [
@@ -98,9 +96,7 @@ def test_init_no_warning_in_git_repo(tmp_path, capsys):
 
 def test_settings_json_is_valid(tmp_path):
     run_init(target=str(tmp_path))
-    settings = json.loads(
-        (tmp_path / ".claude" / "settings.json").read_text()
-    )
+    settings = json.loads((tmp_path / ".claude" / "settings.json").read_text())
     assert "hooks" in settings
     for event in ("SessionStart", "PreToolUse", "PostToolUse", "Stop"):
         assert event in settings["hooks"]
@@ -141,9 +137,7 @@ def test_three_pillar_architecture(tmp_path):
 def test_motivation_hook_in_settings(tmp_path):
     """Motivation tracker hook must be configured in settings.json."""
     run_init(target=str(tmp_path))
-    settings = json.loads(
-        (tmp_path / ".claude" / "settings.json").read_text()
-    )
+    settings = json.loads((tmp_path / ".claude" / "settings.json").read_text())
     post_hooks = settings["hooks"]["PostToolUse"]
     bash_hooks = [h for h in post_hooks if h.get("matcher") == "Bash"]
     assert len(bash_hooks) == 1
@@ -157,18 +151,10 @@ def test_no_domain_specific_content(tmp_path):
     for path in claude_dir.rglob("*"):
         if path.is_file() and path.suffix in (".md", ".json", ".sh"):
             content = path.read_text().lower()
-            assert "scalable_dft" not in content, (
-                f"Found 'scalable_dft' in {path.name}"
-            )
-            assert "scalable-dft" not in content, (
-                f"Found 'scalable-dft' in {path.name}"
-            )
-            assert "omol" not in content, (
-                f"Found 'omol' in {path.name}"
-            )
-            assert "orca" not in content, (
-                f"Found 'orca' in {path.name}"
-            )
+            assert "scalable_dft" not in content, f"Found 'scalable_dft' in {path.name}"
+            assert "scalable-dft" not in content, f"Found 'scalable-dft' in {path.name}"
+            assert "omol" not in content, f"Found 'omol' in {path.name}"
+            assert "orca" not in content, f"Found 'orca' in {path.name}"
 
 
 def test_cross_repo_intelligence_integration(tmp_path):
@@ -176,12 +162,8 @@ def test_cross_repo_intelligence_integration(tmp_path):
     run_init(target=str(tmp_path))
     claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
     memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
-    arch_md = (
-        tmp_path / ".claude" / "memory" / "cognitive-architecture.md"
-    ).read_text()
-    absorbed = (
-        tmp_path / ".claude" / "memory" / "absorbed-intelligence.md"
-    ).read_text()
+    arch_md = (tmp_path / ".claude" / "memory" / "cognitive-architecture.md").read_text()
+    absorbed = (tmp_path / ".claude" / "memory" / "absorbed-intelligence.md").read_text()
     # meta-absorb-repo registered in CLAUDE.md under Learning
     assert "meta-absorb-repo" in claude_md
     # Registered in MEMORY.md meta-skill registry under Learning pillar
@@ -198,18 +180,10 @@ def test_stateful_intelligence_network(tmp_path):
     run_init(target=str(tmp_path))
     claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
     memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
-    arch_md = (
-        tmp_path / ".claude" / "memory" / "cognitive-architecture.md"
-    ).read_text()
-    registry = (
-        tmp_path / ".claude" / "memory" / "review-registry.md"
-    ).read_text()
-    review_md = (
-        tmp_path / ".claude" / "commands" / "meta-intelligence-review.md"
-    ).read_text()
-    inject_md = (
-        tmp_path / ".claude" / "commands" / "meta-intelligence-inject.md"
-    ).read_text()
+    arch_md = (tmp_path / ".claude" / "memory" / "cognitive-architecture.md").read_text()
+    registry = (tmp_path / ".claude" / "memory" / "review-registry.md").read_text()
+    review_md = (tmp_path / ".claude" / "commands" / "meta-intelligence-review.md").read_text()
+    inject_md = (tmp_path / ".claude" / "commands" / "meta-intelligence-inject.md").read_text()
     # Both skills registered in CLAUDE.md
     assert "meta-intelligence-review" in claude_md
     assert "meta-intelligence-inject" in claude_md
@@ -237,12 +211,8 @@ def test_inner_self_integration(tmp_path):
     run_init(target=str(tmp_path))
     claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
     memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
-    arch_md = (
-        tmp_path / ".claude" / "memory" / "cognitive-architecture.md"
-    ).read_text()
-    inner_self = (
-        tmp_path / ".claude" / "commands" / "meta-inner-self.md"
-    ).read_text()
+    arch_md = (tmp_path / ".claude" / "memory" / "cognitive-architecture.md").read_text()
+    inner_self = (tmp_path / ".claude" / "commands" / "meta-inner-self.md").read_text()
     # Registered in CLAUDE.md under Motivation
     assert "meta-inner-self" in claude_md
     # Registered in MEMORY.md meta-skill registry
