@@ -88,6 +88,16 @@ Peer intelligence: review records and injections via `/meta-intelligence-review`
 
 <!-- Format: symptom → root cause → fix -->
 
+## Child Repo Intelligence
+
+Registered child repos and integration status are tracked in `children.json`.
+Use `/meta-integrate` to review child repos for generalizable governance improvements.
+
+| Child | Source | Last Integrated | Proposals Adopted |
+|-------|--------|----------------|-------------------|
+
+<!-- Populated automatically by /meta-integrate -->
+
 ## User Preferences
 
 <!-- Explicit preferences expressed by the user across sessions -->

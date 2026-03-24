@@ -42,6 +42,8 @@ EXPECTED_FILES = [
     ".claude/memory/review-registry.md",
     ".claude/memory/reviews/.gitkeep",
     ".claude/memory/sessions/.gitkeep",
+    ".claude/memory/children.json",
+    ".claude/commands/meta-integrate.md",
 ]
 
 
