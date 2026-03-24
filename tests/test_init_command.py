@@ -25,6 +25,8 @@ EXPECTED_FILES = [
     ".claude/commands/meta-scope-guard.md",
     ".claude/commands/meta-self-audit.md",
     ".claude/commands/meta-absorb-repo.md",
+    ".claude/commands/meta-intelligence-review.md",
+    ".claude/commands/meta-intelligence-inject.md",
     ".claude/commands/refactor.md",
     ".claude/commands/code-review.md",
     ".claude/commands/new-subpackage.md",
@@ -36,6 +38,8 @@ EXPECTED_FILES = [
     ".claude/memory/skill-candidates.md",
     ".claude/memory/topic-index.md",
     ".claude/memory/absorbed-intelligence.md",
+    ".claude/memory/review-registry.md",
+    ".claude/memory/reviews/.gitkeep",
     ".claude/memory/sessions/.gitkeep",
 ]
 
@@ -184,3 +188,41 @@ def test_cross_repo_intelligence_integration(tmp_path):
     # absorbed-intelligence.md references cross-repo patterns
     assert "Cross-Repo Patterns" in absorbed
     assert "Absorption Log" in absorbed
+
+
+def test_stateful_intelligence_network(tmp_path):
+    """Peer review and injection must be integrated into the framework."""
+    run_init(target=str(tmp_path))
+    claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
+    memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
+    arch_md = (
+        tmp_path / ".claude" / "memory" / "cognitive-architecture.md"
+    ).read_text()
+    registry = (
+        tmp_path / ".claude" / "memory" / "review-registry.md"
+    ).read_text()
+    review_md = (
+        tmp_path / ".claude" / "commands" / "meta-intelligence-review.md"
+    ).read_text()
+    inject_md = (
+        tmp_path / ".claude" / "commands" / "meta-intelligence-inject.md"
+    ).read_text()
+    # Both skills registered in CLAUDE.md
+    assert "meta-intelligence-review" in claude_md
+    assert "meta-intelligence-inject" in claude_md
+    # Both in MEMORY.md registry
+    assert "meta-intelligence-review" in memory_md
+    assert "meta-intelligence-inject" in memory_md
+    # Architecture has stateful intelligence section
+    assert "Stateful Intelligence" in arch_md
+    # Registry has review/injection tracking
+    assert "Reviews Received" in registry
+    assert "Injections Sent" in registry
+    # Review skill has provenance fields
+    assert "Reviewer Identity" in review_md
+    assert "Commit" in review_md
+    # Inject skill has provenance fields
+    assert "Source Identity" in inject_md
+    assert "provenance" in inject_md.lower()
+    # Reviews directory exists
+    assert (tmp_path / ".claude" / "memory" / "reviews").is_dir()

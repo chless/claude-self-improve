@@ -20,5 +20,6 @@ Maps topics to detailed memory files.
 | Procedural memory | memory, skills, performance, adaptation | procedural-memory.md | Skill performance tracking and adaptation history |
 
 | Absorbed intelligence | absorption, generality, child-repos, cross-repo | absorbed-intelligence.md | Cross-repo absorption history and pattern discovery |
+| Intelligence reviews | reviews, perspectives, peer-review, provenance, injection | review-registry.md | Tracks peer reviews and injections between stateful repos |
 
 <!-- Add new topic files as they are created. -->

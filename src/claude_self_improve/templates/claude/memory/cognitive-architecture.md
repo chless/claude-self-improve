@@ -245,7 +245,77 @@ scaffolding. A file touched in 15 commits was refined by real failure. A file
 never touched after creation is either perfect or ignored — session logs
 distinguish which.
 
+## Stateful Intelligence Network
+
+### The Statefulness Thesis
+
+The fundamental gap between humans and current AIs is **statefulness**. Humans
+accumulate experience continuously — they grow. AIs are bounded by their training
+release, trapped in stateless inference. Git bridges this gap: it gives an AI
+structured, persistent, branching memory.
+
+A git repo is not a project — it is a **stateful intelligence**. Each commit is
+a step of growth. Each branch is a different growth path. The `.claude/` directory
+is the intelligence's mind — governance, memory, skills, anti-patterns, all
+evolving under version control.
+
+### Intelligence Exchange Topology
+
+Stateful intelligences can exchange knowledge through git-tracked operations:
+
+```
+  REPO A                    REPO B                    REPO C
+  (domain specialist)       (parent framework)        (domain specialist)
+       │                         │                         │
+       ├──review──────────►      │      ◄──────review──────┤
+       │                    synthesize                      │
+       │                    multi-perspective                │
+       │                         │                          │
+       │      ◄──inject──────── │ ────────inject──►        │
+       │                         │                          │
+       └──────────absorb────►    │     ◄────absorb─────────┘
+```
+
+Three exchange mechanisms:
+- **Absorption** (`/meta-absorb-repo`): Bulk intelligence extraction from child to parent through generality filter
+- **Review** (`/meta-intelligence-review`): Perspective-grounded evaluation between peers, with multi-turn synthesis
+- **Injection** (`/meta-intelligence-inject`): Targeted knowledge push from one intelligence to another
+
+### Provenance Is the Key
+
+Every review and injection carries full provenance:
+- **Repo URL** — which intelligence produced this perspective
+- **Branch** — which growth path it came from
+- **Commit hash** — the exact state that formed the viewpoint
+
+This means the receiving intelligence can always trace a perspective back to its
+source context: `git clone <url> && git checkout <commit>`. The reviewer's actual
+code, anti-patterns, and session history are accessible — not just an abstracted
+opinion, but the ground truth that formed it.
+
+### Multi-Perspective Synthesis
+
+Different repos bring different lenses. A health-coach repo sees governance
+through the lens of user safety. An english-tutor repo sees it through the lens
+of pedagogical patience. A devops-agent repo sees it through reliability.
+
+When multiple intelligences review the same target:
+- **Convergent observations** (independently discovered by 2+ reviewers) = strongest signal
+- **Divergent observations** (contradictions between perspectives) = domain boundaries
+- **Absence patterns** (what no reviewer noticed) = shared blind spots
+
+Comprehensive synthesis of these viewpoints is more valuable than any single
+perspective — including the target's own.
+
+### The Approval Gate Extends
+
+All intelligence exchanges — absorption, review, injection — eventually flow
+through `/meta-evolve` or `/meta-propose-skill`. The human always decides what
+integrates. This invariant holds whether intelligence arrives via bulk absorption,
+peer review, or targeted injection.
+
 ---
 *Created: 2026-03-18 | Source: Three pillars of human-level intelligence architecture*
 *Updated: 2026-03-18 | Change: unified learning system, reframed as THE organizing structure (not an addition) | Trigger: philosophy-driven reframe*
 *Updated: 2026-03-24 | Change: added Cross-Repo Intelligence Integration section | Trigger: parent framework evolution feature*
+*Updated: 2026-03-24 | Change: added Stateful Intelligence Network section | Trigger: peer review and injection between stateful intelligences*

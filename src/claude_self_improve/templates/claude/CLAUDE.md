@@ -80,6 +80,7 @@ post-task reflection, but real-time situational awareness.
 | `/meta-anti-patterns` | Before every code change | Review documented mistakes — learning from negative examples |
 | `/meta-self-audit` | Every ~5 sessions or on demand | Discover patterns across session logs the agent missed in real-time |
 | `/meta-absorb-repo` | When parent absorbs child repos | Extract transferable principles from child `.claude/` history via generality filter |
+| `/meta-intelligence-review` | When reviewing or being reviewed by peer repos | Multi-perspective peer review between stateful intelligences with full provenance |
 
 ### Hook (Learning)
 
@@ -128,6 +129,7 @@ level of abstraction, and knowledge flows upward through consolidation.
 | `/meta-propose-skill` | When a pattern recurs 3+ times | Consolidate semantic knowledge into procedural skills |
 | `/meta-commit` | When session involved non-trivial work | Atomic persistence: reflect → capture → commit |
 | `/meta-evolve` | After self-audit or on demand | Propose modifications to the governance system itself |
+| `/meta-intelligence-inject` | When pushing knowledge to another repo | Package and inject intelligence with provenance into target repo |
 
 ### Hooks (Memory)
 
@@ -141,6 +143,8 @@ level of abstraction, and knowledge flows upward through consolidation.
 - **Episodic → Semantic:** `/meta-learn` (After phase) extracts principles from episodes
 - **Semantic → Procedural:** `/meta-propose-skill` promotes patterns to executable skills
 - **Cross-repo → Parent:** `/meta-absorb-repo` extracts child intelligence through generality filter
+- **Peer review → Synthesis:** `/meta-intelligence-review` processes multi-perspective reviews into proposals
+- **Intelligence injection → Target:** `/meta-intelligence-inject` pushes knowledge with provenance to peer repos
 - **Procedural refinement:** `/meta-evolve` restructures the system (requires user approval)
 
 ---
