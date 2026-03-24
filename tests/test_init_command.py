@@ -13,22 +13,34 @@ EXPECTED_FILES = [
     ".claude/hooks/session-init.sh",
     ".claude/hooks/pre-edit-governance.sh",
     ".claude/hooks/post-edit-tracker.sh",
+    ".claude/hooks/motivation-tracker.sh",
     ".claude/hooks/stop-reflection-gate.sh",
     ".claude/commands/README.md",
     ".claude/commands/meta-anti-patterns.md",
     ".claude/commands/meta-commit.md",
     ".claude/commands/meta-evolve.md",
     ".claude/commands/meta-learn.md",
+    ".claude/commands/meta-motivation.md",
     ".claude/commands/meta-propose-skill.md",
     ".claude/commands/meta-scope-guard.md",
     ".claude/commands/meta-self-audit.md",
+    ".claude/commands/meta-absorb-repo.md",
+    ".claude/commands/meta-intelligence-review.md",
+    ".claude/commands/meta-intelligence-inject.md",
+    ".claude/commands/meta-inner-self.md",
     ".claude/commands/refactor.md",
     ".claude/commands/code-review.md",
     ".claude/commands/new-subpackage.md",
     ".claude/memory/MEMORY.md",
     ".claude/memory/ANTI_PATTERN.md",
+    ".claude/memory/cognitive-architecture.md",
+    ".claude/memory/episodic-memory.md",
+    ".claude/memory/procedural-memory.md",
     ".claude/memory/skill-candidates.md",
     ".claude/memory/topic-index.md",
+    ".claude/memory/absorbed-intelligence.md",
+    ".claude/memory/review-registry.md",
+    ".claude/memory/reviews/.gitkeep",
     ".claude/memory/sessions/.gitkeep",
     ".claude/memory/children.json",
     ".claude/commands/meta-integrate.md",
@@ -94,16 +106,48 @@ def test_settings_json_is_valid(tmp_path):
         assert event in settings["hooks"]
 
 
-def test_children_json_is_valid(tmp_path):
-    """children.json must be valid JSON with the expected structure."""
+def test_three_pillar_architecture(tmp_path):
+    """Three pillars must organize the entire governance system."""
     run_init(target=str(tmp_path))
-    data = json.loads(
-        (tmp_path / ".claude" / "memory" / "children.json").read_text()
+    claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
+    memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
+    arch_md = (tmp_path / ".claude" / "memory" / "cognitive-architecture.md").read_text()
+    # CLAUDE.md organized by pillars
+    assert "Pillar 1: Motivation" in claude_md
+    assert "Pillar 2: Learning" in claude_md
+    assert "Pillar 3: Memory" in claude_md
+    # Each pillar has meta-skills and hooks sections
+    assert "Meta-Skills (Motivation)" in claude_md
+    assert "Meta-Skills (Learning)" in claude_md
+    assert "Meta-Skills (Memory)" in claude_md
+    # Session lifecycle shows all three pillars
+    assert "SESSION START" in claude_md
+    # MEMORY.md has pillar-organized registry
+    assert "Cognitive Architecture" in memory_md
+    assert "meta-motivation" in memory_md
+    assert "meta-learn" in memory_md
+    assert "Pillar" in memory_md  # Pillar column in registry
+    # Memory hierarchy documented
+    assert "Episodic" in memory_md
+    assert "Semantic" in memory_md
+    assert "Procedural" in memory_md
+    # Architecture doc has unified learning
+    assert "Unified Learning Loop" in arch_md
+    assert "BEFORE" in arch_md
+    assert "DURING" in arch_md
+    assert "AFTER" in arch_md
+
+
+def test_motivation_hook_in_settings(tmp_path):
+    """Motivation tracker hook must be configured in settings.json."""
+    run_init(target=str(tmp_path))
+    settings = json.loads(
+        (tmp_path / ".claude" / "settings.json").read_text()
     )
-    assert "children" in data
-    assert "integration_log" in data
-    assert isinstance(data["children"], list)
-    assert isinstance(data["integration_log"], list)
+    post_hooks = settings["hooks"]["PostToolUse"]
+    bash_hooks = [h for h in post_hooks if h.get("matcher") == "Bash"]
+    assert len(bash_hooks) == 1
+    assert "motivation-tracker.sh" in bash_hooks[0]["hooks"][0]["command"]
 
 
 def test_no_domain_specific_content(tmp_path):
@@ -125,3 +169,88 @@ def test_no_domain_specific_content(tmp_path):
             assert "orca" not in content, (
                 f"Found 'orca' in {path.name}"
             )
+
+
+def test_cross_repo_intelligence_integration(tmp_path):
+    """Cross-repo absorption must be integrated into all three pillars."""
+    run_init(target=str(tmp_path))
+    claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
+    memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
+    arch_md = (
+        tmp_path / ".claude" / "memory" / "cognitive-architecture.md"
+    ).read_text()
+    absorbed = (
+        tmp_path / ".claude" / "memory" / "absorbed-intelligence.md"
+    ).read_text()
+    # meta-absorb-repo registered in CLAUDE.md under Learning
+    assert "meta-absorb-repo" in claude_md
+    # Registered in MEMORY.md meta-skill registry under Learning pillar
+    assert "meta-absorb-repo" in memory_md
+    # cognitive-architecture.md has cross-repo section
+    assert "Cross-Repo" in arch_md
+    # absorbed-intelligence.md references cross-repo patterns
+    assert "Cross-Repo Patterns" in absorbed
+    assert "Absorption Log" in absorbed
+
+
+def test_stateful_intelligence_network(tmp_path):
+    """Peer review and injection must be integrated into the framework."""
+    run_init(target=str(tmp_path))
+    claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
+    memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
+    arch_md = (
+        tmp_path / ".claude" / "memory" / "cognitive-architecture.md"
+    ).read_text()
+    registry = (
+        tmp_path / ".claude" / "memory" / "review-registry.md"
+    ).read_text()
+    review_md = (
+        tmp_path / ".claude" / "commands" / "meta-intelligence-review.md"
+    ).read_text()
+    inject_md = (
+        tmp_path / ".claude" / "commands" / "meta-intelligence-inject.md"
+    ).read_text()
+    # Both skills registered in CLAUDE.md
+    assert "meta-intelligence-review" in claude_md
+    assert "meta-intelligence-inject" in claude_md
+    # Both in MEMORY.md registry
+    assert "meta-intelligence-review" in memory_md
+    assert "meta-intelligence-inject" in memory_md
+    # Architecture has stateful intelligence section
+    assert "Stateful Intelligence" in arch_md
+    # Registry has review/injection tracking
+    assert "Reviews Received" in registry
+    assert "Injections Sent" in registry
+    # Review skill has provenance fields for BOTH sides
+    assert "Reviewer Identity" in review_md
+    assert "Reviewee Identity" in review_md
+    assert "Commit" in review_md
+    # Inject skill has provenance fields
+    assert "Source Identity" in inject_md
+    assert "provenance" in inject_md.lower()
+    # Reviews directory exists
+    assert (tmp_path / ".claude" / "memory" / "reviews").is_dir()
+
+
+def test_inner_self_integration(tmp_path):
+    """Inner self must be integrated into Motivation pillar."""
+    run_init(target=str(tmp_path))
+    claude_md = (tmp_path / ".claude" / "CLAUDE.md").read_text()
+    memory_md = (tmp_path / ".claude" / "memory" / "MEMORY.md").read_text()
+    arch_md = (
+        tmp_path / ".claude" / "memory" / "cognitive-architecture.md"
+    ).read_text()
+    inner_self = (
+        tmp_path / ".claude" / "commands" / "meta-inner-self.md"
+    ).read_text()
+    # Registered in CLAUDE.md under Motivation
+    assert "meta-inner-self" in claude_md
+    # Registered in MEMORY.md meta-skill registry
+    assert "meta-inner-self" in memory_md
+    # Architecture has Inner Self section
+    assert "Inner Self" in arch_md
+    # Inner self skill has evaluation structure
+    assert "Feasibility" in inner_self
+    assert "respectfully disagree" in inner_self.lower()
+    # Override rule is documented
+    assert "override" in inner_self.lower()

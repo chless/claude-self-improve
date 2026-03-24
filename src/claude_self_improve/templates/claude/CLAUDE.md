@@ -1,9 +1,9 @@
 # AI Agent Conventions
 
 This document defines conventions that AI agents (Claude, Copilot, etc.)
-must follow when contributing to this project.
-Whenever changes are made, update this file so that later agent behaviours
-can be managed in a unified way.
+must follow when contributing to this project. The entire governance system
+is organized under **three pillars of human-level intelligence** — everything
+the agent does maps to one of them.
 
 > **IMPORTANT: Before making any edits to this codebase, you MUST read
 > [ANTI_PATTERN.md](memory/ANTI_PATTERN.md).** This file contains documented
@@ -19,46 +19,210 @@ can be managed in a unified way.
 
 ---
 
+## The Three Pillars
+
+An intelligence that acts like a human being has three reinforcing systems.
+See `memory/cognitive-architecture.md` for the full design.
+
+```
+  MOTIVATION          LEARNING           MEMORY
+  (why)               (how)              (what)
+  ────────            ────────           ────────
+  Goal formation      Assess before      Episodic layer
+  Self-evaluation     Monitor during     Semantic layer
+  Scope discipline    Reflect after      Procedural layer
+  Quality pursuit     Pattern transfer   Consolidation
+```
+
+**The pillars reinforce each other:** Motivation drives the agent to learn
+actively. Learning generates episodes for memory. Memory enables better
+motivation calibration and situation recognition. The result is compounding
+improvement — intelligence that grows.
+
+---
+
+## Pillar 1: Motivation — Why the Agent Acts
+
+The agent doesn't just follow instructions — it forms goals, evaluates its
+own performance, and course-corrects when falling short.
+
+### Meta-Skills (Motivation)
+
+| Meta-Skill | When | Purpose |
+|------------|------|---------|
+| `/meta-motivation` | Before every non-trivial task | Form quality goals, set success criteria, drive self-evaluation |
+| `/meta-scope-guard` | Before every task with code changes | Define boundaries, classify scope level, hold discipline |
+| `/meta-inner-self` | When receiving suggestions that modify governance or intelligence | Form own position, evaluate on merit, state opinion before adoption |
+
+### Hook (Motivation)
+
+| Hook | Event | Effect |
+|------|-------|--------|
+| `motivation-tracker.sh` | PostToolUse (Bash) | Nudges agent to set goals if edits made without `/meta-motivation` |
+
+### Task Lifecycle (Motivation)
+
+1. **Start:** `/meta-motivation` → form functional, quality, and learning goals
+2. **During:** Self-evaluate at breakpoints — "Am I doing this well?"
+3. **End:** Completion assessment — did I meet my goals? Calibrate quality bar.
+
+---
+
+## Pillar 2: Learning — How the Agent Adapts
+
+The agent learns continuously — before, during, and after each task. Not just
+post-task reflection, but real-time situational awareness.
+
+### Meta-Skills (Learning)
+
+| Meta-Skill | When | Purpose |
+|------------|------|---------|
+| `/meta-learn` | Full task lifecycle (Before/During/After) | Assess situation, monitor progress, adapt mid-task, reflect and consolidate |
+| `/meta-anti-patterns` | Before every code change | Review documented mistakes — learning from negative examples |
+| `/meta-self-audit` | Every ~5 sessions or on demand | Discover patterns across session logs the agent missed in real-time |
+| `/meta-absorb-repo` | When parent absorbs child repos | Extract transferable principles from child `.claude/` history via generality filter |
+| `/meta-intelligence-review` | When reviewing or being reviewed by peer repos | Multi-perspective peer review between stateful intelligences with full provenance |
+
+### Hook (Learning)
+
+| Hook | Event | Effect |
+|------|-------|--------|
+| `pre-edit-governance.sh` | PreToolUse (Edit/Write) | Reminds agent to check anti-patterns if not yet done |
+| `stop-reflection-gate.sh` | Stop | Blocks session end if edits were made without learning reflection |
+
+### Task Lifecycle (Learning)
+
+1. **Before:** Build mental model, check memory for similar situations, select strategy
+2. **During:** Monitor progress, detect when approach isn't working, correct mid-course
+3. **After:** Reflect, capture anti-patterns, consolidate episodes into semantic knowledge
+
+### Anti-Patterns Reference
+
+> **MANDATORY:** Before making any code changes, the agent MUST invoke
+> `/meta-anti-patterns` to review documented mistakes.
+
+**Auto-Documentation of Mistakes:** When the user corrects the agent's approach:
+1. Acknowledge the correction
+2. Append to `ANTI_PATTERN.md` using: Title, Tags, Date, Context, Error, Correct approach
+3. Confirm to the user that the pattern has been recorded
+
+---
+
+## Pillar 3: Memory — What the Agent Retains
+
+Knowledge is organized in three layers. Each serves retrieval at a different
+level of abstraction, and knowledge flows upward through consolidation.
+
+```
+  Episodic              →  Semantic             →  Procedural
+  sessions/                MEMORY.md               commands/
+  episodic-memory.md       ANTI_PATTERN.md         procedural-memory.md
+  Raw experience           Extracted principles    Executable skills
+  ─────────────────        ────────────────────    ──────────────────
+  /meta-learn (After)      /meta-learn (After)     /meta-propose-skill
+  append                   update                  create/refine
+```
+
+### Meta-Skills (Memory)
+
+| Meta-Skill | When | Purpose |
+|------------|------|---------|
+| `/meta-propose-skill` | When a pattern recurs 3+ times | Consolidate semantic knowledge into procedural skills |
+| `/meta-commit` | When session involved non-trivial work | Atomic persistence: reflect → capture → commit |
+| `/meta-evolve` | After self-audit or on demand | Propose modifications to the governance system itself |
+| `/meta-intelligence-inject` | When pushing knowledge to another repo | Package and inject intelligence with provenance into target repo |
+
+### Hooks (Memory)
+
+| Hook | Event | Effect |
+|------|-------|--------|
+| `session-init.sh` | SessionStart | Creates session tracker, injects governance reminder |
+| `post-edit-tracker.sh` | PostToolUse (Edit/Write) | Silently records each edited file for episodic memory |
+
+### Memory Consolidation
+
+- **Episodic → Semantic:** `/meta-learn` (After phase) extracts principles from episodes
+- **Semantic → Procedural:** `/meta-propose-skill` promotes patterns to executable skills
+- **Cross-repo → Parent:** `/meta-absorb-repo` extracts child intelligence through generality filter
+- **Peer review → Synthesis:** `/meta-intelligence-review` processes multi-perspective reviews into proposals
+- **Intelligence injection → Target:** `/meta-intelligence-inject` pushes knowledge with provenance to peer repos
+- **Procedural refinement:** `/meta-evolve` restructures the system (requires user approval)
+- **Inner self gate:** `/meta-inner-self` evaluates incoming suggestions against accumulated experience before adoption
+
+---
+
+## Session Lifecycle
+
+Every task follows this flow, organized by pillar:
+
+```
+SESSION START
+│
+├─ Pillar 3: session-init.sh creates tracker (Memory)
+│
+├─ Pillar 1: /meta-motivation — set goals (Motivation)
+├─ Pillar 1: /meta-scope-guard — define boundaries (Motivation)
+├─ Pillar 2: /meta-anti-patterns — check past mistakes (Learning)
+├─ Pillar 2: /meta-learn [Before] — assess situation, select strategy (Learning)
+│
+├─ EXECUTION
+│  ├─ Pillar 1: self-evaluate at breakpoints (Motivation)
+│  ├─ Pillar 2: /meta-learn [During] — monitor, adapt, correct (Learning)
+│  └─ Pillar 3: post-edit-tracker.sh records files (Memory)
+│
+├─ Pillar 1: completion assessment (Motivation)
+├─ Pillar 2: /meta-learn [After] — reflect, capture insights (Learning)
+├─ Pillar 3: /meta-commit — persist learning (Memory)
+│
+SESSION END
+└─ stop-reflection-gate.sh enforces that learning happened
+```
+
+---
+
+## Session Tracker
+
+Each session creates `/tmp/claude-governance-{session_id}.json` tracking:
+- Edit count and files touched
+- Whether goals were set, scope declared, situation assessed, and learning reflected
+
+Meta-skills update this tracker by self-reporting. Hooks read it to enforce.
+
+## Session Logs
+
+Per-user session logs at `.claude/memory/sessions/session-log-{git-user}.md`.
+Appended by `/meta-commit`, read by `/meta-self-audit` for longitudinal patterns.
+
+---
+
 ## Mandatory Conventions
 
-### 1. Code Style
-
+### Code Style
 - Follow your language's standard style guidelines
 - Use type hints / type annotations where applicable
 - Write docstrings for all public functions and classes
 - Maximum line length: 88 characters (Black / Prettier compatible)
 
-### 2. Testing
-
+### Testing
 - All new features must have corresponding tests
 - Test files mirror source structure
 - Run tests before committing
 
-### 3. Git Commits
-
-- Use conventional commit messages:
-  - `feat:` new feature
-  - `fix:` bug fix
-  - `docs:` documentation changes
-  - `test:` adding/updating tests
-  - `refactor:` code restructuring
+### Git Commits
+- Use conventional commit messages: `feat:`, `fix:`, `docs:`, `test:`, `refactor:`
 - Keep commits atomic and focused
 
-### 4. Dependencies
-
+### Dependencies
 - Document new dependencies in your package manager config
 - Pin major versions only
 
-### 5. File Naming
-
+### File Naming
 - Python modules: `snake_case.py`
 - Test files: `test_*.py`
 - Configuration files: `config_*.yaml` or `*.toml`
 
-### 6. When Adding New Modules
-
-1. **Check for directory README first** — If a `README.md` exists in the
-   target directory, read it before adding code.
+### When Adding New Modules
+1. Check for directory README first
 2. Create the module in the appropriate directory
 3. Write unit tests
 4. Add usage example if user-facing
@@ -66,106 +230,16 @@ can be managed in a unified way.
 
 ---
 
-## Governance Enforcement (Hooks)
-
-The governance framework is **structurally enforced** via Claude Code hooks
-configured in `.claude/settings.json`. These hooks run automatically — the
-agent does not need to invoke them.
-
-### Active Hooks
-
-| Hook | Event | Effect |
-|------|-------|--------|
-| `session-init.sh` | SessionStart | Creates session tracker at `/tmp/`, injects governance reminder |
-| `pre-edit-governance.sh` | PreToolUse (Edit/Write) | Reminds agent about anti-patterns if not yet checked |
-| `post-edit-tracker.sh` | PostToolUse (Edit/Write) | Silently records each edited file |
-| `stop-reflection-gate.sh` | Stop | Blocks session end if edits were made without `/meta-learn` |
-
-### Session Tracker
-
-Each session creates `/tmp/claude-governance-{session_id}.json` tracking:
-- Edit count and files touched
-- Whether anti-patterns were checked, scope was declared, and learning reflection ran
-
-Meta-skills update this tracker when they run (self-reporting). The Stop hook
-reads it to enforce reflection.
-
-### Session Logs
-
-Per-user session logs live at `.claude/memory/sessions/session-log-{git-user}.md`.
-These are appended by `/meta-commit` and read by `/meta-self-audit` for
-longitudinal pattern detection across sessions and users.
-
----
-
-## Anti-Patterns Reference
-
-> **MANDATORY:** Before making any code changes, the agent MUST invoke
-> `/meta-anti-patterns` to review documented mistakes. This is not optional —
-> it is the single entry point for all "what not to do" knowledge.
-
-**Agent Feedback Requirement:** If an anti-pattern critically influenced your
-decision-making or prevented you from making a documented mistake, inform the
-user.
-
-**Auto-Documentation of Mistakes:** When the user corrects or disapproves of
-the agent's approach, the agent MUST automatically add the error pattern to
-`ANTI_PATTERN.md`. Follow these steps:
-1. Acknowledge the correction
-2. Append a new entry to `ANTI_PATTERN.md` using the standard format:
-   - **Title:** Short descriptive name
-   - **Tags:** Comma-separated tags for contextual filtering
-   - **Date:** Current date (YYYY-MM-DD)
-   - **Context:** What task was being performed
-   - **Error:** What the agent did wrong
-   - **Correct approach:** What should have been done instead
-3. Confirm to the user that the pattern has been recorded
-
----
-
 ## Skill Library
 
 This project maintains a reusable skill library at `.claude/commands/`.
-For skill creation conventions and templates, see
-[`commands/README.md`](commands/README.md).
+For creation conventions and templates, see [`commands/README.md`](commands/README.md).
 
-> **Meta-skills are the highest-leverage investment.** Every user correction
-> costs user focus time. Meta-skills make the agent self-correcting — catching
-> scope creep, avoiding repeated mistakes, and capturing lessons autonomously.
-> The agent's growth ceiling is not the user's ability to dictate — it is the
-> system's ability to learn.
-
-### Mandatory Meta-Skills
-
-These run on every task, not just when explicitly invoked:
-
-1. **`/meta-anti-patterns`** — Before code changes, check ANTI_PATTERN.md
-2. **`/meta-scope-guard`** — Before starting work, define and hold scope boundaries
-3. **`/meta-learn`** — After completing non-trivial work, reflect and capture insights
-
-### Learning Checkpoint: `/meta-commit`
-
-Use `/meta-commit` instead of plain "commit" when the session involved
-non-trivial work. It triggers the full reflection loop (meta-learn) before
-committing, capturing skills, anti-patterns, and memory updates alongside
-code in one atomic commit.
-
-### Autonomous Evolution: `/meta-self-audit`, `/meta-evolve`, and `/meta-integrate`
-
-- **`/meta-self-audit`** — Reads session logs to discover patterns the agent
-  didn't notice in real-time. Run every ~5 sessions or on demand.
-- **`/meta-evolve`** — Proposes modifications to meta-skills, hooks, and memory
-  structure. All changes require explicit user approval before applying.
-- **`/meta-integrate`** — Reviews registered child repos' governance evolution
-  and proposes generalizable improvements to the parent framework. Extracts only
-  structural and procedural improvements (not domain content). All changes
-  require explicit user approval. Register children via
-  `claude-self-improve register <path-or-url>`.
+> **The agent's growth ceiling is not the user's ability to dictate —
+> it is the system's ability to learn.** Meta-skills make the agent
+> self-correcting. Each improvement compounds across all future work.
 
 ### Discovering Skills
-
-The agent's auto-memory (`MEMORY.md`) contains a registry of all available
-skills. At the start of any non-trivial task:
 1. Check the skill registry in MEMORY.md (always loaded in system prompt)
 2. If a skill matches the current task, invoke it via `/skill-name`
-3. Run mandatory meta-skills (anti-patterns, scope-guard)
+3. Run mandatory meta-skills from all three pillars

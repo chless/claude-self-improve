@@ -1,11 +1,11 @@
 #!/bin/bash
-# session-init.sh — SessionStart hook
-# Initializes a per-session governance tracker and injects a reminder into
-# the agent's context.
+# session-init.sh — SessionStart hook (Pillar 3: Memory)
+# Initializes a per-session governance tracker and injects the three-pillar
+# startup reminder into the agent's context.
 #
 # Fires on: SessionStart (startup|resume)
 # Effect:   Creates /tmp/claude-governance-{session_id}.json
-#           Outputs governance reminder to stdout (added to agent context)
+#           Outputs three-pillar governance reminder to stdout
 
 set -euo pipefail
 
@@ -30,13 +30,22 @@ cat > "$TRACKER" <<JSON
   "git_user": "$GIT_USER",
   "edits": 0,
   "files_edited": [],
-  "anti_patterns_checked": false,
+  "motivation_goals_set": false,
   "scope_declared": false,
+  "anti_patterns_checked": false,
+  "situation_assessed": false,
+  "mid_course_corrections": 0,
+  "self_evaluation_done": false,
   "learning_reflected": false
 }
 JSON
 
 # Stdout is injected into agent context for SessionStart hooks
-echo "SESSION GOVERNANCE ACTIVE: Before any code changes, you MUST (1) run /meta-anti-patterns, (2) run /meta-scope-guard. Session tracker: $TRACKER"
+cat <<EOF
+THREE-PILLAR GOVERNANCE ACTIVE. Before any code changes:
+  1. MOTIVATION: /meta-motivation (set goals), /meta-scope-guard (define boundaries)
+  2. LEARNING:   /meta-anti-patterns (check past mistakes), /meta-learn [Before] (assess situation)
+  3. MEMORY:     Session tracker created at $TRACKER
+EOF
 
 exit 0
